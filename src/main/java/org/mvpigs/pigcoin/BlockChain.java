@@ -28,4 +28,10 @@ public class BlockChain {
     public void addOrigin(Transaction transaction) {
         this.getBlockChain().add(transaction);
     }
+
+    public void sumarize(){
+        for(Transaction transaction : getBlockChain()) {
+            transaction.sumarize();
+        }
+    }
 }
