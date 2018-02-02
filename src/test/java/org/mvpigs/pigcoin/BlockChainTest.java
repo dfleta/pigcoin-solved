@@ -7,7 +7,7 @@ import javax.swing.text.TabableView;
 
 import org.junit.Test;
 
-public class blockChainTest {
+public class BlockChainTest {
 
     @Test
     public void constructorTest() {

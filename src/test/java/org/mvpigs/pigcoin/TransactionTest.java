@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-public class transactionTest {
+public class TransactionTest {
 
     /**
      * Crear clase transaction
