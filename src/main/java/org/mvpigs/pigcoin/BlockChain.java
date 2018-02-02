@@ -13,5 +13,19 @@ public class BlockChain {
     public BlockChain() {
     };
 
+    /**
+     * Getters y setters
+     */
 
+     public ArrayList<Transaction> getBlockChain() {
+         return this.blockChain;
+     }
+
+    /**
+     * Logica
+     */
+
+    public void addOrigin(Transaction transaction) {
+        this.getBlockChain().add(transaction);
+    }
 }
