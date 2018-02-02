@@ -30,6 +30,11 @@ public class Transaction {
         return this.pigcoins;
     }
 
-
-
+    public void sumarize() {
+        System.out.println("hash = "+ this.hash + "\n" + 
+                           "prev_hash = " + this.prev_hash + "\n" +
+                           "pk_sender = " + this.pk_sender + "\n" +
+                           "pk_recipient = " + this.pk_recipient + "\n" +
+                           "pigcoins = " + this.pigcoins);
+    }
 }
