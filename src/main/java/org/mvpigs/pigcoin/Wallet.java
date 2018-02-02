@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Wallet {
 
     private String address = null;
-    private String sk = null;
+    private String SK = null;
     private double total_input = 0d;
     private double total_output = 0d;
     private double balance = 0d;
@@ -20,31 +20,40 @@ public class Wallet {
     public Wallet() {
     };
 
-    public Wallet(String gmail) {
-        setSk(gmail);
+    public Wallet(String feed) {
+        setSK(feed);
+        setAddress(feed);
     };
 
     /**
      * Getter y Setters
      */
 
-    public void setSk(String sk) {
-        this.sk = sk;
+    public void setSK(String feed) {
+        this.SK = generateKey(feed);;
     }
 
-    public String getSk() {
-        return this.sk;
+    public String getSK() {
+        return this.SK;
+    }
+
+    public void setAddress(String feed) {
+        this.address = generateKey(feed);
+    }
+
+    public String getAddress() {
+        return this.address;
     }
 
     /**
      * Logica
      */
 
-    public void generateSk(String gmail) {
+    public String generateKey(String gmail) {
         String sha256hex = Hashing.sha256()
                                   .hashString(gmail, StandardCharsets.UTF_8)
                                   .toString();
-        setSk(sha256hex);
+        return sha256hex;
     }
 
 

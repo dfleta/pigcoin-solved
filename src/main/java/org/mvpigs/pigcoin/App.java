@@ -38,16 +38,13 @@ public class App
                                 "=============="        );
         bChain.sumarize(0);
 
-        String sha256hex = Hashing.sha256()
-                                  .hashString("gmail", StandardCharsets.UTF_8)
-                                  .toString();
-
-        System.out.print("hash = " + sha256hex + "\n");
-
         Wallet wallet = new Wallet();
         // problema al testear Gava desde Junit => hacerlo desde main App
-        wallet.generateSk("gelpiorama@gmail.com");
-        System.out.print("hash = " + wallet.getSk());
+        wallet.setSK("gelpiorama");
+        System.out.println("SK = " + wallet.getSK());
+
+        wallet.setAddress("gelpiorama@gmail.com");
+        System.out.println("PK = " + wallet.getAddress());
 
     }
 }

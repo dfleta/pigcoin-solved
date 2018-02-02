@@ -14,7 +14,6 @@ public class WalletTest {
 
     @Test
     public void generateSk_test() {
-        Wallet wallet = new Wallet();
         // problema al testear Gava desde Junit => hacerlo desde main App
         // wallet.generateSk("gelpiorama@gmail.com");
     }
