@@ -34,4 +34,8 @@ public class BlockChain {
             transaction.sumarize();
         }
     }
+
+    public void sumarize(int index) {
+        getBlockChain().get(index).sumarize();
+    }
 }

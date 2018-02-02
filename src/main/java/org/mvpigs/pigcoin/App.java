@@ -26,6 +26,10 @@ public class App
         bChain.addOrigin(transaction);
         bChain.sumarize();
 
+        System.out.print("\n" + "Ver Transaccion en posicion 0 del BlockChain" + "\n" + 
+                                "=============="        );
+        bChain.sumarize(0);
+
 
     }
 }
