@@ -33,7 +33,6 @@ public class App
         System.out.print("\n" + "Ver Transaccion en posicion 0 del BlockChain" + "\n" + 
                                 "=============="        );
         bChain.sumarize(0);
-
-
+        
     }
 }
