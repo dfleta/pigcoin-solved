@@ -4,26 +4,23 @@ import java.nio.charset.StandardCharsets;
 
 import com.google.common.hash.Hashing;
 
-/**
- * Hello world!
- *
- */
-public class App 
-{
+public class App {
+
     public static void main( String[] args )
     {
         /**
          * Crear una transaccion
          */
 
-        System.out.print("\n" + "Ver transaccion" + "\n" +
+        System.out.println("\n" + "Ver transaccion" + "\n" +
                                 "==============="        );
 
         Transaction transaction = new Transaction();
         transaction = new Transaction("hash_1", "0", "aaaaaaaa", "0", 20);
         transaction.sumarize();
 
-        System.out.print("\n" + "Ver BlockChain" + "\n" + 
+
+        System.out.println("\n" + "Ver BlockChain" + "\n" + 
                                 "=============="        );
 
         BlockChain bChain = new BlockChain();
@@ -34,9 +31,13 @@ public class App
 
         bChain.sumarize();
 
-        System.out.print("\n" + "Ver Transaccion en posicion 0 del BlockChain" + "\n" + 
-                                "=============="        );
+
+        System.out.println("\n" + "Ver Transaccion en posicion 0 del BlockChain" + "\n" + 
+                                "============================================"        );
         bChain.sumarize(0);
+
+        System.out.println("\n" + "Ver Hashes Clave Privada y Clave Pública" + "\n" + 
+                                "========================================"        );
 
         Wallet wallet = new Wallet();
         // problema al testear Gava desde Junit => hacerlo desde main App
