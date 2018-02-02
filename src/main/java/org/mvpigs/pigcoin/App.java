@@ -19,6 +19,10 @@ public class App {
         transaction = new Transaction("hash_1", "0", "aaaaaaaa", "0", 20);
         transaction.sumarize();
 
+        /**
+         * Crear el blockchain
+         * y añadir transacciones que crean moneda
+         */
 
         System.out.println("\n" + "Ver BlockChain" + "\n" + 
                                 "=============="        );
@@ -29,12 +33,25 @@ public class App {
         transaction = new Transaction("hash_2", "1", "origin", "wallet_2", 10);
         bChain.addOrigin(transaction);
 
+        /**
+         * Ver el blockchain
+         */
+
         bChain.sumarize();
 
+        /**
+         * Ver la transaccion en una posicion del blockchain
+         */
 
-        System.out.println("\n" + "Ver Transaccion en posicion 0 del BlockChain" + "\n" + 
+        Integer position = 1;
+        System.out.println("\n" + "Ver Transaccion en posicion " + position.toString() + " del BlockChain" + "\n" + 
                                 "============================================"        );
-        bChain.sumarize(0);
+        bChain.sumarize(position);
+
+        /**
+         * Crear una wallet
+         * Generar claves privada y publica de la wallet 
+         */
 
         System.out.println("\n" + "Ver Hashes Clave Privada y Clave Pública" + "\n" + 
                                 "========================================"        );
