@@ -37,12 +37,29 @@ public class Wallet {
         return this.SK;
     }
 
+    // solo a efectos de testing => eliminar al hacer key pair
+    public void setAddress_sin_hash(String address_sin_hash) {
+        this.address = address_sin_hash;
+    }
+
     public void setAddress(String feed) {
         this.address = generateKey(feed);
     }
 
     public String getAddress() {
         return this.address;
+    }
+
+    public void setTotalInput(double total_input) {
+        this.total_input = total_input;
+    }
+
+    public double getTotalInput() {
+        return this.total_input;
+    }
+
+    public double getTotalOutput() {
+        return this.total_output;
     }
 
     /**
@@ -54,6 +71,12 @@ public class Wallet {
                                   .hashString(gmail, StandardCharsets.UTF_8)
                                   .toString();
         return sha256hex;
+    }
+
+    public void load(BlockChain bChain) {
+        double[] pigcoins = {0d, 0d};
+        pigcoins = bChain.load(getAddress());
+        this.setTotalInput(pigcoins[0]);
     }
 
 
