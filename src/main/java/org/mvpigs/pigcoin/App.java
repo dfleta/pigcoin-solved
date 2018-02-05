@@ -64,5 +64,13 @@ public class App {
         wallet.setAddress("gelpiorama@gmail.com");
         System.out.println("PK = " + wallet.getAddress());
 
+        /**
+         * Indicar en la wallet
+         * el total de pigcoins que se han enviado,
+         * que se han recibido y el balance
+         */
+
+
+
     }
 }

@@ -62,6 +62,15 @@ public class Wallet {
         return this.total_output;
     }
 
+    public double getBalance() {
+		return this.balance;
+	}
+
+	public void setBalance() {
+		this.balance = this.getTotalInput() - this.getTotalOutput();
+	}
+
+
     /**
      * Logica
      */
@@ -76,8 +85,10 @@ public class Wallet {
     public void load(BlockChain bChain) {
         double[] pigcoins = {0d, 0d};
         pigcoins = bChain.load(getAddress());
-        this.setTotalInput(pigcoins[0]);
+        setTotalInput(pigcoins[0]);
+        setBalance();
     }
+
 
 
 }

@@ -26,7 +26,7 @@ public class WalletTest {
     }
 
     @Test
-    public void total_input_test() {
+    public void total_pigcoins_input_y_output_test() {
         BlockChain bChain = new BlockChain();
         Transaction transaction = new Transaction("hash_1", "0", "origin", "wallet_1", 20);
         bChain.addOrigin(transaction);
@@ -38,17 +38,20 @@ public class WalletTest {
         wallet.load(bChain);
         assertEquals(20, wallet.getTotalInput(), 0);
         assertEquals(0, wallet.getTotalOutput(), 0);
+        assertEquals(20, wallet.getBalance(), 0);
 
         wallet = new Wallet("feed");
         wallet.setAddress_sin_hash("wallet_2");
         wallet.load(bChain);
         assertEquals(10, wallet.getTotalInput(), 0);
         assertEquals(0, wallet.getTotalOutput(), 0);
+        assertEquals(10, wallet.getBalance(), 0);
 
+        // una wallet que no existe
         wallet.setAddress_sin_hash("wallet_3");
         wallet.load(bChain);
         assertEquals(0, wallet.getTotalInput(), 0);
         assertEquals(0, wallet.getTotalOutput(), 0);
-        
+        assertEquals(0, wallet.getBalance(), 0);
     }
 }
