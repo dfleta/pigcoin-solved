@@ -70,7 +70,16 @@ public class App {
          * que se han recibido y el balance
          */
 
+        System.out.println("\n" + "Ver el total de pigcoins de una wallet" + "\n" + 
+                                  "======================================"        );
 
+        wallet = new Wallet("feed");
+        wallet.setAddress_sin_hash("wallet_1");
+        wallet.load(bChain);
+        System.out.println("Wallet = " + wallet.getAddress());
+        System.out.println("Total input = " + wallet.getTotalInput());
+        System.out.println( "Total output = " + wallet.getTotalOutput());
+        System.out.println( "Balance = " + wallet.getBalance());
 
     }
 }

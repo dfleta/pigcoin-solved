@@ -27,6 +27,7 @@ public class WalletTest {
 
     @Test
     public void total_pigcoins_input_y_output_test() {
+        
         BlockChain bChain = new BlockChain();
         Transaction transaction = new Transaction("hash_1", "0", "origin", "wallet_1", 20);
         bChain.addOrigin(transaction);
