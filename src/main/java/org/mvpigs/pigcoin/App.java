@@ -77,10 +77,7 @@ public class App {
         wallet = new Wallet("feed");
         wallet.setAddress_sin_hash("wallet_1");
         wallet.loadCoins(bChain);
-        System.out.println("Wallet = " + wallet.getAddress());
-        System.out.println("Total input = " + wallet.getTotalInput());
-        System.out.println( "Total output = " + wallet.getTotalOutput());
-        System.out.println( "Balance = " + wallet.getBalance());
+        System.out.println(wallet.toString());
 
         /**
          * Cargar en la wallet el total de transacciones recibidas

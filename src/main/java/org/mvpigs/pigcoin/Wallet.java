@@ -105,4 +105,12 @@ public class Wallet {
         setTransactions(bChain.loadInputTransactions(getAddress()));        
     }
 
+    @Override
+    public String toString() {
+        return "\n" + "Wallet = " + getAddress() + "\n" + 
+                      "Total input = " + getTotalInput() + "\n" +
+                      "Total output = " + getTotalOutput() + "\n" +
+                      "Balance = " + getBalance() + "\n";
+    }
+
 }
