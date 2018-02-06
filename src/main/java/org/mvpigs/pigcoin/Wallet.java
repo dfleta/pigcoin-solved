@@ -86,13 +86,14 @@ public class Wallet {
         return sha256hex;
     }
 
-    public void load(BlockChain bChain) {
+    public void loadCoins(BlockChain bChain) {
         double[] pigcoins = {0d, 0d};
         pigcoins = bChain.load(getAddress());
         setTotalInput(pigcoins[0]);
         setTotalOutput(pigcoins[1]);
         updateBalance();
     }
+
 
 
 
