@@ -66,7 +66,7 @@ public class Wallet {
 		return this.balance;
 	}
 
-	public void setBalance() {
+	public void updateBalance() {
 		this.balance = this.getTotalInput() - this.getTotalOutput();
 	}
 
@@ -86,7 +86,7 @@ public class Wallet {
         double[] pigcoins = {0d, 0d};
         pigcoins = bChain.load(getAddress());
         setTotalInput(pigcoins[0]);
-        setBalance();
+        updateBalance();
     }
 
 
