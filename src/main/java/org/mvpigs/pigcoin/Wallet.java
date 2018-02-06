@@ -58,6 +58,10 @@ public class Wallet {
         return this.total_input;
     }
 
+    public void setTotalOutput(double total_output) {
+        this.total_output = total_output;
+    }
+
     public double getTotalOutput() {
         return this.total_output;
     }
@@ -86,6 +90,7 @@ public class Wallet {
         double[] pigcoins = {0d, 0d};
         pigcoins = bChain.load(getAddress());
         setTotalInput(pigcoins[0]);
+        setTotalOutput(pigcoins[1]);
         updateBalance();
     }
 
