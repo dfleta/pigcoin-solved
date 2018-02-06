@@ -67,7 +67,8 @@ public class App {
         /**
          * Indicar en la wallet
          * el total de pigcoins que se han enviado,
-         * que se han recibido y el balance
+         * que se han recibido
+         * y el balance
          */
 
         System.out.println("\n" + "Ver el total de pigcoins de una wallet" + "\n" + 
@@ -75,11 +76,25 @@ public class App {
 
         wallet = new Wallet("feed");
         wallet.setAddress_sin_hash("wallet_1");
-        wallet.load(bChain);
+        wallet.loadCoins(bChain);
         System.out.println("Wallet = " + wallet.getAddress());
         System.out.println("Total input = " + wallet.getTotalInput());
         System.out.println( "Total output = " + wallet.getTotalOutput());
         System.out.println( "Balance = " + wallet.getBalance());
 
+        /**
+         * Cargar en la wallet el total de transacciones recibidas
+         * (aquellas que suponen recibir pigcoins)
+         * y mostrarlas
+         */
+
+        System.out.println("\n" + "Ver las transacciones entrantes de una wallet" + "\n" + 
+                                  "============================================="        );
+        wallet = new Wallet("feed");
+        wallet.setAddress_sin_hash("wallet_1");
+        wallet.loadInputTransactions(bChain);
+        System.out.println("Wallet = " + wallet.getAddress());
+        System.out.println("Transacciones = " + wallet.getTransactions().toString());
+        
     }
 }

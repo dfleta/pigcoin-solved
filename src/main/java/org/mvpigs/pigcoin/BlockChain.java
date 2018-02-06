@@ -1,6 +1,8 @@
 package org.mvpigs.pigcoin;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class BlockChain {
 
@@ -56,4 +58,15 @@ public class BlockChain {
         double[] pigcoins = {pigcoinsIn, pigcoinsOut};
         return pigcoins;
     }
+
+    public List<Transaction> loadInputTransactions(String address) {
+   
+        List<Transaction> inputTransactions = getBlockChain().stream()
+            .filter(transaction -> transaction.get_PK_recipient().equals(address))
+            .collect(Collectors.toCollection(ArrayList<Transaction>::new));
+        
+        return inputTransactions;
+    }
+
+
 }

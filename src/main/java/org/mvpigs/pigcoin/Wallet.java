@@ -2,7 +2,7 @@ package org.mvpigs.pigcoin;
 
 import com.google.common.hash.Hashing;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
+import java.util.List;
 
 public class Wallet {
 
@@ -11,7 +11,7 @@ public class Wallet {
     private double total_input = 0d;
     private double total_output = 0d;
     private double balance = 0d;
-    private ArrayList<Transaction> transactions = null;
+    private List<Transaction> transactions = null;
 
     /**
      * Constructor
@@ -72,8 +72,15 @@ public class Wallet {
 
 	public void updateBalance() {
 		this.balance = this.getTotalInput() - this.getTotalOutput();
+    }
+    
+    public List<Transaction> getTransactions() {
+		return transactions;
 	}
 
+	public void setTransactions(List<Transaction> transactions) {
+		this.transactions = transactions;
+	}
 
     /**
      * Logica
@@ -94,7 +101,8 @@ public class Wallet {
         updateBalance();
     }
 
-
-
+    public void loadInputTransactions(BlockChain bChain) {
+        setTransactions(bChain.loadInputTransactions(getAddress()));        
+    }
 
 }
