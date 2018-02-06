@@ -17,7 +17,7 @@ public class App {
 
         Transaction transaction = new Transaction();
         transaction = new Transaction("hash_1", "0", "aaaaaaaa", "0", 20);
-        transaction.sumarize();
+        System.out.println(transaction.toString());
 
         /**
          * Crear el blockchain

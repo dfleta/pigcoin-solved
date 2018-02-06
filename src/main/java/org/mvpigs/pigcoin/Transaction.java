@@ -30,12 +30,13 @@ public class Transaction {
         return this.pigcoins;
     }
 
-    public void sumarize() {
-        System.out.println("\n" + "hash = "+ this.hash + "\n" + 
-                           "prev_hash = " + this.prev_hash + "\n" +
-                           "pk_sender = " + this.PK_sender + "\n" +
-                           "pk_recipient = " + this.PK_recipient + "\n" +
-                           "pigcoins = " + this.pigcoins + "\n");
+    @Override
+    public String toString() {
+        return "\n" + "hash = "+ this.hash + "\n" + 
+                "prev_hash = " + this.prev_hash + "\n" +
+                "pk_sender = " + this.PK_sender + "\n" +
+                "pk_recipient = " + this.PK_recipient + "\n" +
+                "pigcoins = " + this.pigcoins + "\n";
     }
 
     public String get_PK_sender() {

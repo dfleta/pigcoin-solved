@@ -31,12 +31,12 @@ public class BlockChain {
 
     public void sumarize(){
         for(Transaction transaction : getBlockChain()) {
-            transaction.sumarize();
+            System.out.println(transaction.toString());
         }
     }
 
     public void sumarize(int index) {
-        getBlockChain().get(index).sumarize();
+        System.out.println(getBlockChain().get(index).toString());
     }
 
     public double[] load(String address) {

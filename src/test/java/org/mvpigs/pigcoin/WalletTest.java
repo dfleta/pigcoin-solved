@@ -27,7 +27,7 @@ public class WalletTest {
 
     @Test
     public void total_pigcoins_input_y_output_test() {
-        
+
         BlockChain bChain = new BlockChain();
         Transaction transaction = new Transaction("hash_1", "0", "origin", "wallet_1", 20);
         bChain.addOrigin(transaction);
@@ -54,5 +54,22 @@ public class WalletTest {
         assertEquals(0, wallet.getTotalInput(), 0);
         assertEquals(0, wallet.getTotalOutput(), 0);
         assertEquals(0, wallet.getBalance(), 0);
+    }
+
+    @Test
+    public void enviar_transaccion_test() {
+
+        BlockChain bChain = new BlockChain();
+        Transaction transaction = new Transaction("hash_1", "0", "origin", "wallet_1", 20);
+        bChain.addOrigin(transaction);
+        transaction = new Transaction("hash_2", "1", "origin", "wallet_2", 10);
+        bChain.addOrigin(transaction);
+
+        Wallet wallet = new Wallet("feed");
+        wallet.setAddress_sin_hash("wallet_1");
+        wallet.load(bChain);
+        assertEquals(20, wallet.getTotalInput(), 0);
+        assertEquals(0, wallet.getTotalOutput(), 0);
+        assertEquals(20, wallet.getBalance(), 0);
     }
 }
