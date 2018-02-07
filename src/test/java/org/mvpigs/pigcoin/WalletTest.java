@@ -136,6 +136,7 @@ public class WalletTest {
     
         // la cantidad a enviar es menor que la primera transaccion entrante
 
+        wallet.loadInputTransactions(bChain);
         pigcoins = 10d;
         coins = wallet.collectCoins(pigcoins);
         assertNotNull(coins);
@@ -145,6 +146,7 @@ public class WalletTest {
         
         // la cantidad a enviar es mayor que la primera transaccion entrante
 
+        wallet.loadInputTransactions(bChain);
         pigcoins = 25d;
         coins = wallet.collectCoins(pigcoins);
         assertNotNull(coins);
@@ -154,6 +156,7 @@ public class WalletTest {
         assertEquals(5, coins.get("CA_hash_2"), 0);
 
         // la cantidad a enviar es mayor que el balance = pigcoins disponibles en la wallet
+        wallet.loadInputTransactions(bChain);
         pigcoins = 40d;
         coins = wallet.collectCoins(pigcoins);
         assertNull(coins);

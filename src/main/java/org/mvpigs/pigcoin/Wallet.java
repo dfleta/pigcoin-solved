@@ -2,6 +2,7 @@ package org.mvpigs.pigcoin;
 
 import com.google.common.hash.Hashing;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -120,22 +121,28 @@ public class Wallet {
         }
 
         Double collectedCoins = 0d;
+        List<Transaction> consumedCoins = new ArrayList<>();
+
         for (Transaction transaction : getTransactions()) {
 
             if (transaction.getPigCoins() == pigcoins) {
                 mapHashCoins.put(transaction.getHash(), transaction.getPigCoins());
+                consumedCoins.add(transaction);
                 break;
             } else if (transaction.getPigCoins() > pigcoins ) {
                 mapHashCoins.put(transaction.getHash(), pigcoins);
                 mapHashCoins.put("CA_" + transaction.getHash(), transaction.getPigCoins() - pigcoins);
+                consumedCoins.add(transaction);
                 break;
             } else {
                 mapHashCoins.put(transaction.getHash(), transaction.getPigCoins());
                 collectedCoins = transaction.getPigCoins();
                 pigcoins = pigcoins - collectedCoins;
+                consumedCoins.add(transaction);
             }
 
         }
+        getTransactions().removeAll(consumedCoins);
         return mapHashCoins;
     }
 
