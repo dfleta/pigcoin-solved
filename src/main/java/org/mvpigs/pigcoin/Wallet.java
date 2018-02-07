@@ -2,7 +2,9 @@ package org.mvpigs.pigcoin;
 
 import com.google.common.hash.Hashing;
 import java.nio.charset.StandardCharsets;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Wallet {
 
@@ -75,7 +77,7 @@ public class Wallet {
     }
     
     public List<Transaction> getTransactions() {
-		return transactions;
+		return this.transactions;
 	}
 
 	public void setTransactions(List<Transaction> transactions) {
@@ -103,6 +105,24 @@ public class Wallet {
 
     public void loadInputTransactions(BlockChain bChain) {
         setTransactions(bChain.loadInputTransactions(getAddress()));        
+    }
+
+    public Map<String, Double> collectCoins(double pigcoins) {
+        
+        Map<String, Double> mapHashCoins = new LinkedHashMap<>();
+
+        if (getTransactions() == null) {
+            return null;
+        }
+
+        Double collectedCoins = 0d;
+        for (Transaction transaction : getTransactions()) {
+            if (transaction.getPigCoins() == pigcoins) {
+                mapHashCoins.put(transaction.getHash(), transaction.getPigCoins());
+                break;
+            }
+        }
+        return mapHashCoins;
     }
 
     @Override

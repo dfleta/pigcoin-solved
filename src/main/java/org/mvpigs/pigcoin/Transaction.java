@@ -47,4 +47,8 @@ public class Transaction {
         return this.PK_recipient;
     }
 
+    public String getHash() {
+        return this.hash;
+    }
+
 }
