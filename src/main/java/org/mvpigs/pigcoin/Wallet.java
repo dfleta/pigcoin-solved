@@ -120,6 +120,10 @@ public class Wallet {
             if (transaction.getPigCoins() == pigcoins) {
                 mapHashCoins.put(transaction.getHash(), transaction.getPigCoins());
                 break;
+            } else if (transaction.getPigCoins() > pigcoins ) {
+                mapHashCoins.put(transaction.getHash(), pigcoins);
+                mapHashCoins.put("CA_" + transaction.getHash(), transaction.getPigCoins() - pigcoins);
+                break;
             }
         }
         return mapHashCoins;

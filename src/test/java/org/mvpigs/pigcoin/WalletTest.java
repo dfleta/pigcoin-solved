@@ -122,12 +122,22 @@ public class WalletTest {
         assertEquals(0, wallet.getTotalOutput(), 0);
         assertEquals(20, wallet.getBalance(), 0);
 
-        // la cantidad a enviar esta exactamente en una transaccion entrante
+        // la cantidad a enviar es exactamente la primera transaccion entrante
         Double pigcoins = 20d; 
         Map<String, Double> coins = wallet.collectCoins(pigcoins);
         assertNotNull(coins);
         assertEquals(coins.size(), 1);
         assertEquals(20, coins.get("hash_1"), 0);
+    
+        // la cantidad a enviar es menor que la primera transaccion entrante
+
+        pigcoins = 10d;
+        coins = wallet.collectCoins(pigcoins);
+        assertNotNull(coins);
+        assertEquals(coins.size(), 2);
+        assertEquals(10, coins.get("hash_1"), 0);
+        assertEquals(10, coins.get("CA_hash_1"), 0);
+
 
 
         
