@@ -2,6 +2,7 @@ package org.mvpigs.pigcoin;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
@@ -151,6 +152,11 @@ public class WalletTest {
         assertEquals(20, coins.get("hash_1"), 0);
         assertEquals(5, coins.get("hash_2"), 0);
         assertEquals(5, coins.get("CA_hash_2"), 0);
+
+        // la cantidad a enviar es mayor que el balance = pigcoins disponibles en la wallet
+        pigcoins = 40d;
+        coins = wallet.collectCoins(pigcoins);
+        assertNull(coins);
         
     }
 

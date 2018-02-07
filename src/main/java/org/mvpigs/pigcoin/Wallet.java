@@ -115,6 +115,10 @@ public class Wallet {
             return null;
         }
 
+        if (pigcoins > getBalance()) {
+            return null;
+        }
+
         Double collectedCoins = 0d;
         for (Transaction transaction : getTransactions()) {
 
@@ -130,7 +134,7 @@ public class Wallet {
                 collectedCoins = transaction.getPigCoins();
                 pigcoins = pigcoins - collectedCoins;
             }
-            
+
         }
         return mapHashCoins;
     }
