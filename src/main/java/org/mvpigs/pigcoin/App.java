@@ -1,7 +1,5 @@
 package org.mvpigs.pigcoin;
 
-import java.nio.charset.StandardCharsets;
-
 import com.google.common.hash.Hashing;
 
 public class App {

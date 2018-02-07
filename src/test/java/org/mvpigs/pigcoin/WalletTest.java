@@ -110,17 +110,21 @@ public class WalletTest {
         Transaction transaction = new Transaction("hash_1", "0", "origin", "wallet_1", 20);
         assertTrue(transaction.getHash().equals("hash_1"));
         bChain.addOrigin(transaction);
+        transaction = new Transaction("hash_2", "1", "origin", "wallet_1", 10);
+        assertTrue(transaction.getHash().equals("hash_2"));
+        bChain.addOrigin(transaction);
 
         Wallet wallet = new Wallet("feed");
         wallet.setAddress_sin_hash("wallet_1");
         wallet.loadInputTransactions(bChain);
-        assertTrue(wallet.getTransactions().size() == 1);
+        assertTrue(wallet.getTransactions().size() == 2);
         assertTrue(wallet.getTransactions().get(0).getPigCoins() == 20);
-
+        assertTrue(wallet.getTransactions().get(1).getPigCoins() == 10);
+    
         wallet.loadCoins(bChain);
-        assertEquals(20, wallet.getTotalInput(), 0);
+        assertEquals(30, wallet.getTotalInput(), 0);
         assertEquals(0, wallet.getTotalOutput(), 0);
-        assertEquals(20, wallet.getBalance(), 0);
+        assertEquals(30, wallet.getBalance(), 0);
 
         // la cantidad a enviar es exactamente la primera transaccion entrante
         Double pigcoins = 20d; 
@@ -137,9 +141,16 @@ public class WalletTest {
         assertEquals(coins.size(), 2);
         assertEquals(10, coins.get("hash_1"), 0);
         assertEquals(10, coins.get("CA_hash_1"), 0);
+        
+        // la cantidad a enviar es mayor que la primera transaccion entrante
 
-
-
+        pigcoins = 25d;
+        coins = wallet.collectCoins(pigcoins);
+        assertNotNull(coins);
+        assertTrue(coins.size() == 3);
+        assertEquals(20, coins.get("hash_1"), 0);
+        assertEquals(5, coins.get("hash_2"), 0);
+        assertEquals(5, coins.get("CA_hash_2"), 0);
         
     }
 

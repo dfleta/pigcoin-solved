@@ -117,6 +117,7 @@ public class Wallet {
 
         Double collectedCoins = 0d;
         for (Transaction transaction : getTransactions()) {
+
             if (transaction.getPigCoins() == pigcoins) {
                 mapHashCoins.put(transaction.getHash(), transaction.getPigCoins());
                 break;
@@ -124,7 +125,12 @@ public class Wallet {
                 mapHashCoins.put(transaction.getHash(), pigcoins);
                 mapHashCoins.put("CA_" + transaction.getHash(), transaction.getPigCoins() - pigcoins);
                 break;
+            } else {
+                mapHashCoins.put(transaction.getHash(), transaction.getPigCoins());
+                collectedCoins = transaction.getPigCoins();
+                pigcoins = pigcoins - collectedCoins;
             }
+            
         }
         return mapHashCoins;
     }
