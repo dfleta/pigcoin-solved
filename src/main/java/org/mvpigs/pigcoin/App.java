@@ -69,7 +69,7 @@ public class App {
          * y el balance
          */
 
-        System.out.println("\n" + "Ver el total de pigcoins de una wallet" + "\n" + 
+        System.out.println("\n" + "Ver el total de pigcoins de las dos wallet" + "\n" + 
                                   "======================================"        );
 
         Wallet wallet_1 = new Wallet("feed");
@@ -89,24 +89,39 @@ public class App {
          * y mostrarlas
          */
 
-        System.out.println("\n" + "Ver las transacciones entrantes de una wallet" + "\n" + 
+        System.out.println("\n" + "Ver las transacciones entrantes de la wallet_1" + "\n" + 
                                   "============================================="        );
         wallet_1.loadInputTransactions(bChain);
         System.out.println("Wallet = " + wallet_1.getAddress());
         System.out.println("Transacciones = " + wallet_1.getInputTransactions().toString());
 
-        System.out.println("\n" + "Ver las transacciones enviadas de una wallet" + "\n" + 
+        System.out.println("\n" + "Ver las transacciones enviadas de una wallet_1" + "\n" + 
                                   "============================================="        );
         wallet_1.loadOutputTransactions(bChain);
         System.out.println("Wallet = " + wallet_1.getAddress());
         System.out.println("Transacciones = " + wallet_1.getOutputTransactions().toString());
+
+        System.out.println("\n" + "Ver las transacciones entrantes de la wallet_2" + "\n" + 
+                                  "============================================="        );
+        wallet_2.loadInputTransactions(bChain);
+        System.out.println("Wallet = " + wallet_1.getAddress());
+        System.out.println("Transacciones = " + wallet_2.getInputTransactions().toString());
 
 
         /**
          * Enviar 10 pigcoins de la wallet_1 a la wallet_2 
          */
 
-        wallet_1.sendCoins(wallet_2.getAddress(), 10.2, bChain);
+        System.out.println("\n" + ">>> Wallet_1 envia transaccion de 5.2 pigcoins a wallet_2 >>>" + "\n");
+
+        System.out.println("\n" + "Ver el total de pigcoins de las dos wallet" + "\n" + 
+                                  "======================================"        );
+
+        wallet_1.sendCoins(wallet_2.getAddress(), 5.2, bChain);
+        wallet_2.loadCoins(bChain);
+
+        System.out.println(wallet_1.toString());
+        System.out.println(wallet_2.toString());
 
 
         
