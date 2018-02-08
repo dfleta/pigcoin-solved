@@ -109,21 +109,18 @@ public class App {
 
 
         /**
-         * Enviar 10 pigcoins de la wallet_1 a la wallet_2 
+         * Enviar pigcoins de la wallet_1 a la wallet_2 
          */
 
         System.out.println("\n" + ">>> Wallet_1 envia transaccion de 5.2 pigcoins a wallet_2 >>>" + "\n");
 
         System.out.println("\n" + "Ver el total de pigcoins de las dos wallet" + "\n" + 
-                                  "======================================"        );
+                                  "======================================"            );
 
         wallet_1.sendCoins(wallet_2.getAddress(), 5.2, bChain);
         wallet_2.loadCoins(bChain);
 
         System.out.println(wallet_1.toString());
-        System.out.println(wallet_2.toString());
-
-
-        
+        System.out.println(wallet_2.toString());        
     }
 }

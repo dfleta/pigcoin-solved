@@ -52,26 +52,15 @@ public class BlockChain {
 
         Set<String> consumedCoins = new HashSet<>();
 
-        // Collections.reverse(getBlockChain());
         for (Transaction transaction : getBlockChain()) {
-            /*
-            if (consumedCoins.contains(transaction.getHash())) {
-                // consumedCoins.remove(transaction.getHash());
-                continue;
-            }*/
+
             if(address.equals(transaction.get_PK_recipient())) {
                     pigcoinsIn = pigcoinsIn + transaction.getPigCoins();
-                    // consumedCoins.add(transaction.getPrevHash());
-            } // else
+            }
             if (address.equals(transaction.get_PK_sender())) {
                 pigcoinsOut = pigcoinsOut + transaction.getPigCoins();
-                // consumedCoins.add(transaction.getPrevHash());
-            /* } else {
-                continue;*/
             }
         }
-        // postcondition
-        // Collections.reverse(getBlockChain());
 
         double[] pigcoins = {pigcoinsIn, pigcoinsOut};
         return pigcoins;
