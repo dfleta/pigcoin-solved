@@ -192,6 +192,8 @@ public class WalletTest {
         wallet_2.loadInputTransactions(bChain);
         assertTrue(wallet_2.getInputTransactions().size() == 1);
 
+        // enviamos una transaccion que supone un change address
+
         wallet_1.sendCoins(wallet_2.getAddress(), 10.2d, bChain);
         assertEquals(4, bChain.getBlockChain().size(), 0);
 
@@ -199,7 +201,7 @@ public class WalletTest {
         assertEquals(2, wallet_1.getInputTransactions().size());
         assertEquals(20d, wallet_1.getInputTransactions().get(0).getPigCoins(), 0);
         assertEquals(9.8d, wallet_1.getInputTransactions().get(1).getPigCoins(), 0);
-        
+
         wallet_1.loadOutputTransactions(bChain);
         assertEquals(2, wallet_1.getOutputTransactions().size(), 0);
         assertEquals(10.2d, wallet_1.getOutputTransactions().get(0).getPigCoins(), 0);

@@ -28,6 +28,8 @@ public class App {
         bChain.addOrigin(transaction);
         transaction = new Transaction("hash_2", "1", "origin", "wallet_2", 10);
         bChain.addOrigin(transaction);
+        transaction = new Transaction("hash_3", "1", "wallet_1", "wallet_2", 10);
+        bChain.addOrigin(transaction);
 
         /**
          * Ver el blockchain
@@ -36,7 +38,7 @@ public class App {
         bChain.sumarize();
 
         /**
-         * Ver la transaccion en una posicion del blockchain
+         * Ver la transaccion en una posicion determinada del blockchain
          */
 
         Integer position = 1;

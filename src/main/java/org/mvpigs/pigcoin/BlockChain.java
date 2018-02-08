@@ -52,7 +52,7 @@ public class BlockChain {
 
         Set<String> consumedCoins = new HashSet<>();
 
-        Collections.reverse(getBlockChain());
+        // Collections.reverse(getBlockChain());
         for (Transaction transaction : getBlockChain()) {
             /*
             if (consumedCoins.contains(transaction.getHash())) {
@@ -71,7 +71,7 @@ public class BlockChain {
             }
         }
         // postcondition
-        Collections.reverse(getBlockChain());
+        // Collections.reverse(getBlockChain());
 
         double[] pigcoins = {pigcoinsIn, pigcoinsOut};
         return pigcoins;
