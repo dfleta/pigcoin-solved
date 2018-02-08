@@ -137,12 +137,12 @@ public class WalletTest {
         // la cantidad a enviar es menor que la primera transaccion entrante
 
         wallet.loadInputTransactions(bChain);
-        pigcoins = 10d;
+        pigcoins = 10.2d;
         coins = wallet.collectCoins(pigcoins);
         assertNotNull(coins);
         assertEquals(coins.size(), 2);
-        assertEquals(10, coins.get("hash_1"), 0);
-        assertEquals(10, coins.get("CA_hash_1"), 0);
+        assertEquals(10.2, coins.get("hash_1"), 0);
+        assertEquals(9.8, coins.get("CA_hash_1"), 0);
         
         // la cantidad a enviar es mayor que la primera transaccion entrante
 
@@ -174,18 +174,26 @@ public class WalletTest {
 
         Wallet wallet_1 = new Wallet("feed");
         wallet_1.setAddress_sin_hash("wallet_1");
+        wallet_1.loadCoins(bChain);
+        assertEquals(20, wallet_1.getTotalInput(), 0);
+        assertEquals(0, wallet_1.getTotalOutput(), 0);
+        assertEquals(20, wallet_1.getBalance(), 0);
         wallet_1.loadInputTransactions(bChain);
         assertTrue(wallet_1.getTransactions().size() == 1);
 
         Wallet wallet_2 = new Wallet("feed");
         wallet_2.setAddress_sin_hash("wallet_2");
+        wallet_2.loadCoins(bChain);
+        assertEquals(10, wallet_2.getTotalInput(), 0);
+        assertEquals(0, wallet_2.getTotalOutput(), 0);
+        assertEquals(10, wallet_2.getBalance(), 0);
         wallet_2.loadInputTransactions(bChain);
         assertTrue(wallet_2.getTransactions().size() == 1);
 
-        /*
-        wallet_1.sendTransaction(wallet_2.getAddress(), 10);
-        wallet_1.loadCoins(bChain);
-        assertTrue(wallet_1.getBalance() == 10);     
-        */   
+        wallet_1.sendCoins(wallet_2.getAddress(), 10.2d, bChain);
+        assertEquals(4, bChain.getBlockChain().size(), 0);
+        assertEquals(9.8, wallet_1.getBalance(), 0);
+        wallet_2.loadCoins(bChain);
+        assertEquals(20.2, wallet_2.getBalance(), 0);        
     }
 }

@@ -72,10 +72,15 @@ public class App {
         System.out.println("\n" + "Ver el total de pigcoins de una wallet" + "\n" + 
                                   "======================================"        );
 
-        wallet = new Wallet("feed");
-        wallet.setAddress_sin_hash("wallet_1");
-        wallet.loadCoins(bChain);
-        System.out.println(wallet.toString());
+        Wallet wallet_1 = new Wallet("feed");
+        wallet_1.setAddress_sin_hash("wallet_1");
+        wallet_1.loadCoins(bChain);
+        System.out.println(wallet_1.toString());
+
+        Wallet wallet_2 = new Wallet("feed");
+        wallet_2.setAddress_sin_hash("wallet_2");
+        wallet_2.loadCoins(bChain);
+        System.out.println(wallet_2.toString());
 
         /**
          * Cargar en la wallet el total de transacciones recibidas
@@ -85,11 +90,17 @@ public class App {
 
         System.out.println("\n" + "Ver las transacciones entrantes de una wallet" + "\n" + 
                                   "============================================="        );
-        wallet = new Wallet("feed");
-        wallet.setAddress_sin_hash("wallet_1");
-        wallet.loadInputTransactions(bChain);
-        System.out.println("Wallet = " + wallet.getAddress());
-        System.out.println("Transacciones = " + wallet.getTransactions().toString());
+        wallet_1.loadInputTransactions(bChain);
+        System.out.println("Wallet = " + wallet_1.getAddress());
+        System.out.println("Transacciones = " + wallet_1.getTransactions().toString());
+
+        /**
+         * Enviar 10 pigcoins de la wallet_1 a la wallet_2 
+         */
+
+        wallet_1.sendCoins(wallet_2.getAddress(), 10.2, bChain);
+
+
         
     }
 }

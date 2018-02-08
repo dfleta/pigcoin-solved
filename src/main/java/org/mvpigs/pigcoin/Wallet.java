@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class Wallet {
 
@@ -144,6 +145,23 @@ public class Wallet {
         }
         getTransactions().removeAll(consumedCoins);
         return mapHashCoins;
+    }
+
+    public String signature() {
+        return "firma";
+    }
+
+    public void sendCoins(String PK_recipient, Double coins, BlockChain bChain) {
+
+        Map<String, Double> consumedCoins = new LinkedHashMap<>();
+        
+        consumedCoins = collectCoins(coins);
+
+        if (consumedCoins != null) {
+            bChain.processTransactions(getAddress(), PK_recipient, consumedCoins, signature());
+        }
+        
+        this.loadCoins(bChain);
     }
 
     @Override

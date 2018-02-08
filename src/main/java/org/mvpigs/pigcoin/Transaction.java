@@ -7,6 +7,7 @@ public class Transaction {
     private String PK_sender = null;
     private String PK_recipient = null;
     private double pigcoins = 0d;
+    // private double signature = null;
 
     /**
      * Constructores
@@ -49,6 +50,10 @@ public class Transaction {
 
     public String getHash() {
         return this.hash;
+    }
+
+    public String getPrevHash() {
+        return this.prev_hash;
     }
 
 }

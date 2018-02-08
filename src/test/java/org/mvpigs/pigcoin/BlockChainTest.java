@@ -5,7 +5,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import javax.swing.text.TabableView;
 
@@ -51,5 +53,46 @@ public class BlockChainTest {
         assertNotNull(inputTransactions);
         assertTrue(inputTransactions.size() == 0);
         assertFalse(inputTransactions.contains(transaction));
+    }
+
+    @Test
+    public void is_consumed_coin_valid_test() {
+        BlockChain bChain = new BlockChain();
+        Transaction transaction = new Transaction("hash_1", "0", "origin", "wallet_1", 20);
+        bChain.addOrigin(transaction);
+        transaction = new Transaction("hash_2", "1", "origin", "wallet_2", 10);
+        bChain.addOrigin(transaction);
+        transaction = new Transaction("hash_3", "hash_1", "wallet_1", "wallet_2", 10);
+        bChain.addOrigin(transaction);
+
+        Map<String, Double> consumedCoins = new LinkedHashMap<>();
+        consumedCoins.put("hash_1", 10d);
+        assertFalse(bChain.isConsumedCoinValid(consumedCoins));
+        consumedCoins.clear();
+        consumedCoins.put("hash_2", 10d);
+        consumedCoins.put("hash_3", 10d);
+        assertTrue(bChain.isConsumedCoinValid(consumedCoins));
+    }
+
+    @Test
+    public void create_transaction_test() {
+
+        BlockChain bChain = new BlockChain();
+        Transaction transaction = new Transaction("hash_1", "0", "origin", "wallet_1", 20);
+        bChain.addOrigin(transaction);
+        transaction = new Transaction("hash_2", "1", "origin", "wallet_2", 10);
+        bChain.addOrigin(transaction);
+
+        Map<String, Double> consumedCoins = new LinkedHashMap<>();
+        consumedCoins.put("hash_1", 10.2d);
+        consumedCoins.put("CA_hash_2", 9.8d);
+        assertTrue(bChain.isConsumedCoinValid(consumedCoins));
+
+        int previousBlockChainSize = bChain.getBlockChain().size();
+        bChain.createTransaction("wallet_1", "wallet_2", consumedCoins, "signature");
+        assertEquals(previousBlockChainSize + consumedCoins.size(), bChain.getBlockChain().size(), 0);
+        assertEquals("hash_4", bChain.getBlockChain().get(3).getHash());
+        assertEquals(9.8, bChain.getBlockChain().get(3).getPigCoins(), 0);
+        bChain.sumarize(3);
     }
 }
