@@ -1,13 +1,16 @@
 package org.mvpigs.pigcoin;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class BlockChain {
 
-    ArrayList<Transaction> blockChain = new ArrayList<Transaction>();
+    List<Transaction> blockChain = new ArrayList<Transaction>();
 
     /**
      * Constructor
@@ -20,7 +23,7 @@ public class BlockChain {
      * Getters y setters
      */
 
-     public ArrayList<Transaction> getBlockChain() {
+     public List<Transaction> getBlockChain() {
          return this.blockChain;
      }
 
@@ -42,20 +45,33 @@ public class BlockChain {
         System.out.println(getBlockChain().get(index).toString());
     }
 
-    public double[] load(String address) {
+    public double[] loadWallet(String address) {
 
         double pigcoinsIn = 0d;
         double pigcoinsOut = 0d;
 
+        Set<String> consumedCoins = new HashSet<>();
+
+        Collections.reverse(getBlockChain());
         for (Transaction transaction : getBlockChain()) {
+            /*
+            if (consumedCoins.contains(transaction.getHash())) {
+                // consumedCoins.remove(transaction.getHash());
+                continue;
+            }*/
             if(address.equals(transaction.get_PK_recipient())) {
                     pigcoinsIn = pigcoinsIn + transaction.getPigCoins();
-            } else if (address.equals(transaction.get_PK_sender())) {
+                    // consumedCoins.add(transaction.getPrevHash());
+            } // else
+            if (address.equals(transaction.get_PK_sender())) {
                 pigcoinsOut = pigcoinsOut + transaction.getPigCoins();
-            } else {
-                continue;
+                // consumedCoins.add(transaction.getPrevHash());
+            /* } else {
+                continue;*/
             }
         }
+        // postcondition
+        Collections.reverse(getBlockChain());
 
         double[] pigcoins = {pigcoinsIn, pigcoinsOut};
         return pigcoins;
@@ -68,6 +84,15 @@ public class BlockChain {
             .collect(Collectors.toCollection(ArrayList<Transaction>::new));
         
         return inputTransactions;
+    }
+
+    public List<Transaction> loadOutputTransactions(String address) {
+   
+        List<Transaction> outputTransactions = getBlockChain().stream()
+            .filter(transaction -> transaction.get_PK_sender().equals(address))
+            .collect(Collectors.toCollection(ArrayList<Transaction>::new));
+        
+        return outputTransactions;
     }
 
     public boolean isSignatureValid(String Signature) {

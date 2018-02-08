@@ -8,8 +8,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import javax.swing.text.TabableView;
 
 import org.junit.Test;
 
@@ -28,6 +26,23 @@ public class BlockChainTest {
         transaction = new Transaction("hash_1", "0", "origin", "wallet_1", 20);
         bc.addOrigin(transaction);
         assertEquals(20, bc.getBlockChain().get(0).getPigCoins(), 0);
+    }
+
+    @Test
+    public void load_wallet_test() {
+        BlockChain bChain = new BlockChain();
+        Transaction transaction = new Transaction("hash_1", "0", "origin", "wallet_1", 20);
+        bChain.addOrigin(transaction);
+        transaction = new Transaction("hash_2", "1", "origin", "wallet_2", 10);
+        bChain.addOrigin(transaction);
+        transaction = new Transaction("hash_3", "hash_1", "wallet_1", "wallet_2", 10);
+        bChain.addOrigin(transaction);
+        transaction = new Transaction("hash_4", "CA_hash_3", "wallet_1", "wallet_1", 10);
+        bChain.addOrigin(transaction);
+
+        double[] pigcoins = bChain.loadWallet("wallet_1");
+        assertEquals(30, pigcoins[0], 0);
+        assertEquals(20, pigcoins[1], 0);
     }
 
     @Test

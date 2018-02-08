@@ -1,7 +1,5 @@
 package org.mvpigs.pigcoin;
 
-import com.google.common.hash.Hashing;
-
 public class App {
 
     public static void main( String[] args )
@@ -85,6 +83,7 @@ public class App {
         /**
          * Cargar en la wallet el total de transacciones recibidas
          * (aquellas que suponen recibir pigcoins)
+         * y enviadas (aquellas que envian pigcoins)
          * y mostrarlas
          */
 
@@ -92,7 +91,14 @@ public class App {
                                   "============================================="        );
         wallet_1.loadInputTransactions(bChain);
         System.out.println("Wallet = " + wallet_1.getAddress());
-        System.out.println("Transacciones = " + wallet_1.getTransactions().toString());
+        System.out.println("Transacciones = " + wallet_1.getInputTransactions().toString());
+
+        System.out.println("\n" + "Ver las transacciones enviadas de una wallet" + "\n" + 
+                                  "============================================="        );
+        wallet_1.loadOutputTransactions(bChain);
+        System.out.println("Wallet = " + wallet_1.getAddress());
+        System.out.println("Transacciones = " + wallet_1.getOutputTransactions().toString());
+
 
         /**
          * Enviar 10 pigcoins de la wallet_1 a la wallet_2 

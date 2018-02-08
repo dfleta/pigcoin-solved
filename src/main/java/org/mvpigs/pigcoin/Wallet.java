@@ -2,11 +2,11 @@ package org.mvpigs.pigcoin;
 
 import com.google.common.hash.Hashing;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import java.util.Set;
 
 public class Wallet {
 
@@ -15,7 +15,8 @@ public class Wallet {
     private double total_input = 0d;
     private double total_output = 0d;
     private double balance = 0d;
-    private List<Transaction> transactions = null;
+    private List<Transaction> inputTransactions = null;
+    private List<Transaction> outputTransactions = null;
 
     /**
      * Constructor
@@ -72,18 +73,22 @@ public class Wallet {
 
     public double getBalance() {
 		return this.balance;
-	}
-
-	public void updateBalance() {
-		this.balance = this.getTotalInput() - this.getTotalOutput();
     }
     
-    public List<Transaction> getTransactions() {
-		return this.transactions;
+    public void setOutputTransactions(List<Transaction> outputTransactions) {
+        this.outputTransactions = outputTransactions;
+    }
+
+    public List<Transaction> getOutputTransactions() {
+        return this.outputTransactions;
+    }
+
+    public void setInputTransactions(List<Transaction> transactions) {
+		this.inputTransactions = transactions;
 	}
 
-	public void setTransactions(List<Transaction> transactions) {
-		this.transactions = transactions;
+    public List<Transaction> getInputTransactions() {
+		return this.inputTransactions;
 	}
 
     /**
@@ -97,23 +102,32 @@ public class Wallet {
         return sha256hex;
     }
 
+    public void updateBalance() {
+		this.balance = this.getTotalInput() - this.getTotalOutput();
+    }
+
     public void loadCoins(BlockChain bChain) {
         double[] pigcoins = {0d, 0d};
-        pigcoins = bChain.load(getAddress());
+        pigcoins = bChain.loadWallet(getAddress());
         setTotalInput(pigcoins[0]);
         setTotalOutput(pigcoins[1]);
         updateBalance();
     }
 
     public void loadInputTransactions(BlockChain bChain) {
-        setTransactions(bChain.loadInputTransactions(getAddress()));        
+        setInputTransactions(bChain.loadInputTransactions(getAddress()));        
     }
+    
+    public void loadOutputTransactions(BlockChain bChain) {
+        setOutputTransactions(bChain.loadOutputTransactions(getAddress()));        
+    }
+
 
     public Map<String, Double> collectCoins(double pigcoins) {
         
-        Map<String, Double> mapHashCoins = new LinkedHashMap<>();
+        Map<String, Double> collectedCoins = new LinkedHashMap<>();
 
-        if (getTransactions() == null) {
+        if (getInputTransactions() == null) {
             return null;
         }
 
@@ -121,30 +135,40 @@ public class Wallet {
             return null;
         }
 
-        Double collectedCoins = 0d;
-        List<Transaction> consumedCoins = new ArrayList<>();
+        Double achievedCoins = 0d;
 
-        for (Transaction transaction : getTransactions()) {
+        Set<String> consumedCoins = new HashSet<>();
+        if (getOutputTransactions() != null) {
+            for (Transaction transaction : getOutputTransactions()) {
+                consumedCoins.add(transaction.getPrevHash());
+            }   
+        }             
+
+        for (Transaction transaction : getInputTransactions()) {
+
+            if (consumedCoins.contains(transaction.getHash())) {
+                continue;
+            }
 
             if (transaction.getPigCoins() == pigcoins) {
-                mapHashCoins.put(transaction.getHash(), transaction.getPigCoins());
-                consumedCoins.add(transaction);
+                collectedCoins.put(transaction.getHash(), transaction.getPigCoins());
+                consumedCoins.add(transaction.getHash());
                 break;
-            } else if (transaction.getPigCoins() > pigcoins ) {
-                mapHashCoins.put(transaction.getHash(), pigcoins);
-                mapHashCoins.put("CA_" + transaction.getHash(), transaction.getPigCoins() - pigcoins);
-                consumedCoins.add(transaction);
+            } else if (transaction.getPigCoins() > pigcoins) {
+                collectedCoins.put(transaction.getHash(), pigcoins);
+                collectedCoins.put("CA_" + transaction.getHash(), transaction.getPigCoins() - pigcoins);
+                consumedCoins.add(transaction.getHash());
                 break;
             } else {
-                mapHashCoins.put(transaction.getHash(), transaction.getPigCoins());
-                collectedCoins = transaction.getPigCoins();
-                pigcoins = pigcoins - collectedCoins;
-                consumedCoins.add(transaction);
+                collectedCoins.put(transaction.getHash(), transaction.getPigCoins());
+                achievedCoins = transaction.getPigCoins();
+                pigcoins = pigcoins - achievedCoins;
+                consumedCoins.add(transaction.getHash());
             }
 
         }
-        getTransactions().removeAll(consumedCoins);
-        return mapHashCoins;
+        getInputTransactions().removeAll(consumedCoins);
+        return collectedCoins;
     }
 
     public String signature() {

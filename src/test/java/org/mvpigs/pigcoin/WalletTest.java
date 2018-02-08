@@ -89,19 +89,19 @@ public class WalletTest {
         Wallet wallet = new Wallet("feed");
         wallet.setAddress_sin_hash("wallet_1");
         wallet.loadInputTransactions(bChain);
-        assertTrue(wallet.getTransactions().size() == 1);
-        assertTrue(wallet.getTransactions().get(0).getPigCoins() == 20);
+        assertTrue(wallet.getInputTransactions().size() == 1);
+        assertTrue(wallet.getInputTransactions().get(0).getPigCoins() == 20);
 
         wallet = new Wallet("feed");
         wallet.setAddress_sin_hash("wallet_2");
         wallet.loadInputTransactions(bChain);
-        assertTrue(wallet.getTransactions().size() == 1);
-        assertTrue(wallet.getTransactions().get(0).getPigCoins() == 10);
+        assertTrue(wallet.getInputTransactions().size() == 1);
+        assertTrue(wallet.getInputTransactions().get(0).getPigCoins() == 10);
 
         wallet = new Wallet("feed");
         wallet.setAddress_sin_hash("wallet_3");
         wallet.loadInputTransactions(bChain);
-        assertTrue(wallet.getTransactions().size() == 0);
+        assertTrue(wallet.getInputTransactions().size() == 0);
     }
 
     @Test
@@ -118,9 +118,9 @@ public class WalletTest {
         Wallet wallet = new Wallet("feed");
         wallet.setAddress_sin_hash("wallet_1");
         wallet.loadInputTransactions(bChain);
-        assertTrue(wallet.getTransactions().size() == 2);
-        assertTrue(wallet.getTransactions().get(0).getPigCoins() == 20);
-        assertTrue(wallet.getTransactions().get(1).getPigCoins() == 10);
+        assertTrue(wallet.getInputTransactions().size() == 2);
+        assertTrue(wallet.getInputTransactions().get(0).getPigCoins() == 20);
+        assertTrue(wallet.getInputTransactions().get(1).getPigCoins() == 10);
     
         wallet.loadCoins(bChain);
         assertEquals(30, wallet.getTotalInput(), 0);
@@ -128,7 +128,8 @@ public class WalletTest {
         assertEquals(30, wallet.getBalance(), 0);
 
         // la cantidad a enviar es exactamente la primera transaccion entrante
-        Double pigcoins = 20d; 
+        Double pigcoins = 20d;
+        assertNull(wallet.getOutputTransactions());
         Map<String, Double> coins = wallet.collectCoins(pigcoins);
         assertNotNull(coins);
         assertEquals(coins.size(), 1);
@@ -137,10 +138,11 @@ public class WalletTest {
         // la cantidad a enviar es menor que la primera transaccion entrante
 
         wallet.loadInputTransactions(bChain);
+        assertEquals(2, wallet.getInputTransactions().size());
         pigcoins = 10.2d;
         coins = wallet.collectCoins(pigcoins);
         assertNotNull(coins);
-        assertEquals(coins.size(), 2);
+        assertEquals(2, coins.size());
         assertEquals(10.2, coins.get("hash_1"), 0);
         assertEquals(9.8, coins.get("CA_hash_1"), 0);
         
@@ -179,7 +181,7 @@ public class WalletTest {
         assertEquals(0, wallet_1.getTotalOutput(), 0);
         assertEquals(20, wallet_1.getBalance(), 0);
         wallet_1.loadInputTransactions(bChain);
-        assertTrue(wallet_1.getTransactions().size() == 1);
+        assertTrue(wallet_1.getInputTransactions().size() == 1);
 
         Wallet wallet_2 = new Wallet("feed");
         wallet_2.setAddress_sin_hash("wallet_2");
@@ -188,10 +190,21 @@ public class WalletTest {
         assertEquals(0, wallet_2.getTotalOutput(), 0);
         assertEquals(10, wallet_2.getBalance(), 0);
         wallet_2.loadInputTransactions(bChain);
-        assertTrue(wallet_2.getTransactions().size() == 1);
+        assertTrue(wallet_2.getInputTransactions().size() == 1);
 
         wallet_1.sendCoins(wallet_2.getAddress(), 10.2d, bChain);
         assertEquals(4, bChain.getBlockChain().size(), 0);
+
+        wallet_1.loadInputTransactions(bChain);
+        assertEquals(2, wallet_1.getInputTransactions().size());
+        assertEquals(20d, wallet_1.getInputTransactions().get(0).getPigCoins(), 0);
+        assertEquals(9.8d, wallet_1.getInputTransactions().get(1).getPigCoins(), 0);
+        
+        wallet_1.loadOutputTransactions(bChain);
+        assertEquals(2, wallet_1.getOutputTransactions().size(), 0);
+        assertEquals(10.2d, wallet_1.getOutputTransactions().get(0).getPigCoins(), 0);
+        assertEquals(9.8d, wallet_1.getOutputTransactions().get(1).getPigCoins(), 0);
+
         assertEquals(9.8, wallet_1.getBalance(), 0);
         wallet_2.loadCoins(bChain);
         assertEquals(20.2, wallet_2.getBalance(), 0);        
