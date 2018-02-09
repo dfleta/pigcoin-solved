@@ -21,10 +21,16 @@ public class BlockChainTest {
 
     @Test
     public void addOriginTransaction() {
+        
+        Wallet origin = new Wallet();
+        origin.generateKeyPair();
+        Wallet wallet_1 = new Wallet();
+        wallet_1.generateKeyPair();
+
         BlockChain bc = new BlockChain();
-        Transaction transaction = new Transaction();
-        transaction = new Transaction("hash_1", "0", "origin", "wallet_1", 20);
-        bc.addOrigin(transaction);
+        Transaction trx = new Transaction();
+        trx = new Transaction("hash_1", "0", origin.getAddress(), wallet_1.getAddress(), 20);
+        bc.addOrigin(trx);
         assertEquals(20, bc.getBlockChain().get(0).getPigCoins(), 0);
     }
 
@@ -108,6 +114,6 @@ public class BlockChainTest {
         assertEquals(previousBlockChainSize + consumedCoins.size(), bChain.getBlockChain().size(), 0);
         assertEquals("hash_4", bChain.getBlockChain().get(3).getHash());
         assertEquals(9.8, bChain.getBlockChain().get(3).getPigCoins(), 0);
-        bChain.sumarize(3);
+        bChain.summarize(3);
     }
 }

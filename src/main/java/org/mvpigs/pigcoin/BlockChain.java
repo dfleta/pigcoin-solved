@@ -35,13 +35,13 @@ public class BlockChain {
         this.getBlockChain().add(transaction);
     }
 
-    public void sumarize(){
+    public void summarize(){
         for(Transaction transaction : getBlockChain()) {
             System.out.println(transaction.toString());
         }
     }
 
-    public void sumarize(int index) {
+    public void summarize(int index) {
         System.out.println(getBlockChain().get(index).toString());
     }
 

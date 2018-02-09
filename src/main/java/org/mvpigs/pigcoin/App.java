@@ -11,8 +11,8 @@ public class App {
          * Genera las claves privada y publica de la wallet 
          */
 
-        System.out.println("\n" + "Ver clave Privada y clave Pública" + "\n" + 
-                                  "================================="        );
+        System.out.println("\n" + "Ver clave Privada y clave Pública de una wallet" + "\n" + 
+                                  "==============================================="        );
                        
         Wallet wallet_1 = new Wallet();
         KeyPair pair = GenSig.generateKeyPair();
@@ -45,6 +45,7 @@ public class App {
         /**
          * Crea una transaccion de pigcoins 
          * que incluiremos mas tarde en el blockchain
+         * Visualiza la transaccion
          */
 
         System.out.println("\n" + "Ver transaccion" + "\n" +
@@ -52,40 +53,42 @@ public class App {
 
         Transaction trx = new Transaction();
         trx = new Transaction("hash_1", "0", wallet_1.getAddress(), wallet_2.getAddress(), 20);
+        
         System.out.println(trx.toString());
 
         /**
-         * Crear el blockchain
-         * y añadir transacciones que crean moneda
+         * Crea el blockchain
+         * y añade transacciones que crean moneda "pigcoins"
          */
 
         System.out.println("\n" + "Ver BlockChain" + "\n" + 
-                                "=============="        );
-        /*
+                                  "=============="        );
+        
+        // Crea primero la direccion "origen" del sistema que genera los pigcoins
+
+        Wallet origin = new Wallet();
+        origin.generateKeyPair();
+
         BlockChain bChain = new BlockChain();
-        transaction = new Transaction("hash_1", "0", "origin", "wallet_1", 20);
-        bChain.addOrigin(transaction);
-        transaction = new Transaction("hash_2", "1", "origin", "wallet_2", 10);
-        bChain.addOrigin(transaction);
-        transaction = new Transaction("hash_3", "1", "wallet_1", "wallet_2", 10);
-        bChain.addOrigin(transaction);
-        */
+        trx = new Transaction("hash_1", "0", origin.getAddress(), wallet_1.getAddress(), 20);
+        bChain.addOrigin(trx);
+        trx = new Transaction("hash_2", "1", origin.getAddress(), wallet_2.getAddress(), 10);
+        bChain.addOrigin(trx);
+        trx = new Transaction("hash_3", "2", wallet_1.getAddress(), wallet_2.getAddress(), 10);
+        bChain.addOrigin(trx);
+        
+        // Visualiza el blockchain
+                
+        bChain.summarize();
+        
         /**
-         * Ver el blockchain
+         * Ve la transaccion de una posicion determinada del blockchain
          */
-        /*
-        bChain.sumarize();
-        */
-        /**
-         * Ver la transaccion en una posicion determinada del blockchain
-         */
-        /*
+        
         Integer position = 1;
         System.out.println("\n" + "Ver Transaccion en posicion " + position.toString() + " del BlockChain" + "\n" + 
-                            "============================================"        );
-        bChain.sumarize(position);
-        */
-        
+                                  "======================================================================"        );
+        bChain.summarize(position);        
 
         /**
          * Indicar en la wallet
