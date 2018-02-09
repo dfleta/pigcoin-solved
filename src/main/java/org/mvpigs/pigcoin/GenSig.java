@@ -2,10 +2,10 @@ package org.mvpigs.pigcoin;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
+import java.security.Signature;
 
 public class GenSig {
 
@@ -17,17 +17,53 @@ public class GenSig {
      */
 
     public static KeyPair generateKeyPair() {
+
         try {
-        KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
-        // key length 2048
-        // Cryptographically strong random number generator (RNG)
-        generator.initialize(2048, new SecureRandom());
-        KeyPair pair = generator.generateKeyPair();
-        PrivateKey SK = pair.getPrivate();
-        PublicKey PK = pair.getPublic();
-        return pair;
-        } catch (NoSuchAlgorithmException e) {
+
+            KeyPairGenerator keyGen = KeyPairGenerator.getInstance("DSA", "SUN");
+            SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
+            keyGen.initialize(1024, random);
+            KeyPair pair = keyGen.generateKeyPair();
+            return pair;
+        
+        } catch (Exception e) {
             return null;
         }
+    }
+
+    public static byte[] sign(PrivateKey sKey, String message) {
+        
+        try {
+
+            // Indicate the message digest algorithm: SHA-1
+            Signature signDsa = Signature.getInstance("SHA1withDSA", "SUN");
+            signDsa.initSign(sKey);
+            signDsa.update(message.getBytes());
+            // firma de los datos
+            byte[] realSig = signDsa.sign();
+            return realSig;
+
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static boolean verify(PublicKey pubKey, String message, byte[] signedMessage) {
+        try {
+            // importar la clave publica
+            Signature sig = Signature.getInstance("SHA1withDSA", "SUN");
+            sig.initVerify(pubKey);
+            
+            // importar el mensaje
+            sig.update(message.getBytes());
+
+            // importar la firma
+            boolean verifies = sig.verify(signedMessage);
+            return verifies;
+
+        } catch (Exception e) {
+            return false;
+        }
+
     }
 }

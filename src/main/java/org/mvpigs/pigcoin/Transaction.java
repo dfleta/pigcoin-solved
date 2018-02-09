@@ -9,7 +9,8 @@ public class Transaction {
     private PublicKey pKey_sender = null;
     private PublicKey pKey_recipient = null;
     private double pigcoins = 0d;
-    // private double signature = null;
+    private String message = null; 
+    private byte[] signature = null;
 
     /**
      * Constructores
@@ -17,12 +18,13 @@ public class Transaction {
     public Transaction() {
     };
 
-    public Transaction(String hash, String prev_hash, PublicKey pKey_sender, PublicKey pKey_recipient, double pigcoins) {
+    public Transaction(String hash, String prev_hash, PublicKey pKey_sender, PublicKey pKey_recipient, double pigcoins, String message) {
         this.hash = hash;
         this.prev_hash = prev_hash;
         this.pKey_sender = pKey_sender;
         this.pKey_recipient = pKey_recipient;
         this.pigcoins = pigcoins;
+        this.message = message;
     }
 
     /**
@@ -39,7 +41,8 @@ public class Transaction {
                 "prev_hash = " + this.prev_hash + "\n" +
                 "pKey_sender = " + get_PK_sender().getEncoded() + "\n" +
                 "pKey_recipient = " + get_PK_recipient().getEncoded() + "\n" +
-                "pigcoins = " + getPigCoins() + "\n";
+                "pigcoins = " + getPigCoins() + "\n" +
+                "message = " + getMessage() +  "\n";
     }
 
     public PublicKey get_PK_sender() {
@@ -57,5 +60,21 @@ public class Transaction {
     public String getPrevHash() {
         return this.prev_hash;
     }
+
+    public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public byte[] getSignature() {
+		return signature;
+	}
+
+	public void setSignature(byte[] signature) {
+		this.signature = signature;
+	}
 
 }

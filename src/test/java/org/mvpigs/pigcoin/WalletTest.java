@@ -43,9 +43,9 @@ public class WalletTest {
         wallet_2.generateKeyPair();
 
         BlockChain bChain = new BlockChain();
-        Transaction trx = new Transaction("hash_1", "0", origin.getAddress(), wallet_1.getAddress(), 20);
+        Transaction trx = new Transaction("hash_1", "0", origin.getAddress(), wallet_1.getAddress(), 20, "a flying pig!");
         bChain.addOrigin(trx);
-        trx = new Transaction("hash_2", "1", origin.getAddress(), wallet_2.getAddress(), 10);
+        trx = new Transaction("hash_2", "1", origin.getAddress(), wallet_2.getAddress(), 10, "pig things!");
         bChain.addOrigin(trx);
 
         wallet_1.loadCoins(bChain);
@@ -80,9 +80,9 @@ public class WalletTest {
         wallet_3.generateKeyPair();
 
         BlockChain bChain = new BlockChain();
-        Transaction trx = new Transaction("hash_1", "0", origin.getAddress(), wallet_1.getAddress(), 20);
+        Transaction trx = new Transaction("hash_1", "0", origin.getAddress(), wallet_1.getAddress(), 20, "a flying pig!");
         bChain.addOrigin(trx);
-        trx = new Transaction("hash_2", "1", origin.getAddress(), wallet_2.getAddress(), 10);
+        trx = new Transaction("hash_2", "1", origin.getAddress(), wallet_2.getAddress(), 10, "pig things!");
         bChain.addOrigin(trx);
 
         wallet_1.loadInputTransactions(bChain);
@@ -106,10 +106,10 @@ public class WalletTest {
         wallet.generateKeyPair();     
 
         BlockChain bChain = new BlockChain();
-        Transaction transaction = new Transaction("hash_1", "0", origin.getAddress(), wallet.getAddress(), 20);
+        Transaction transaction = new Transaction("hash_1", "0", origin.getAddress(), wallet.getAddress(), 20, "a flying pig!");
         assertTrue(transaction.getHash().equals("hash_1"));
         bChain.addOrigin(transaction);
-        transaction = new Transaction("hash_2", "1", origin.getAddress(), wallet.getAddress(), 10);
+        transaction = new Transaction("hash_2", "1", origin.getAddress(), wallet.getAddress(), 10, "pig things!");
         assertTrue(transaction.getHash().equals("hash_2"));
         bChain.addOrigin(transaction);
 
@@ -162,6 +162,17 @@ public class WalletTest {
     }
 
     @Test
+    public void signTransaction() {
+
+        Wallet wallet = new Wallet();
+        wallet.generateKeyPair();
+        byte[] signedMessage = wallet.signTransaction("pig things!");
+
+        BlockChain bChain = new BlockChain();
+        assertTrue(bChain.isSignatureValid(wallet.getAddress(), "pig things!", signedMessage));
+    }
+
+    @Test
     public void send_transaction_test() {
 
         Wallet origin = new Wallet();
@@ -172,9 +183,9 @@ public class WalletTest {
         wallet_2.generateKeyPair();
 
         BlockChain bChain = new BlockChain();
-        Transaction transaction = new Transaction("hash_1", "0", origin.getAddress(), wallet_1.getAddress(), 20);
+        Transaction transaction = new Transaction("hash_1", "0", origin.getAddress(), wallet_1.getAddress(), 20, "a flying pig!");
         bChain.addOrigin(transaction);
-        transaction = new Transaction("hash_2", "1", origin.getAddress(), wallet_2.getAddress(), 10);
+        transaction = new Transaction("hash_2", "1", origin.getAddress(), wallet_2.getAddress(), 10, "pig things!");
         bChain.addOrigin(transaction);
 
         wallet_1.loadCoins(bChain);
@@ -193,7 +204,7 @@ public class WalletTest {
 
         // enviamos una transaccion que supone un change address
 
-        wallet_1.sendCoins(wallet_2.getAddress(), 10.2d, bChain);
+        wallet_1.sendCoins(wallet_2.getAddress(), 10.2d, "pig things!", bChain);
         assertEquals(4, bChain.getBlockChain().size(), 0);
 
         wallet_1.loadInputTransactions(bChain);

@@ -52,7 +52,7 @@ public class App {
                                   "==============="        );
 
         Transaction trx = new Transaction();
-        trx = new Transaction("hash_1", "0", wallet_1.getAddress(), wallet_2.getAddress(), 20);
+        trx = new Transaction("hash_1", "0", wallet_1.getAddress(), wallet_2.getAddress(), 20, "a flying pig!");
         
         System.out.println(trx.toString());
 
@@ -168,7 +168,7 @@ public class App {
 
 
         Double pigcoins = 5.2d;
-        wallet_1.sendCoins(wallet_2.getAddress(), pigcoins, bChain);
+        wallet_1.sendCoins(wallet_2.getAddress(), pigcoins, "pig things!", bChain);
         wallet_2.loadCoins(bChain);
 
         System.out.println("\n" + "Ver el total de pigcoins de las dos wallet" + "\n" + 
@@ -176,10 +176,10 @@ public class App {
         // comprobamos que la transaccion se ha realizado
         System.out.println(wallet_1.toString());
         System.out.println(wallet_2.toString());
-        
-        pigcoins = 5.2d;
-        wallet_1.sendCoins(wallet_2.getAddress(), pigcoins, bChain);
-        wallet_2.loadCoins(bChain);
-         
+
+        System.out.println("\n" + "Ver BlockChain" + "\n" + 
+                                  "=============="        );  
+        bChain.summarize();
+
     }
 }

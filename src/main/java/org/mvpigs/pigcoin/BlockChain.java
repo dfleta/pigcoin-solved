@@ -80,8 +80,9 @@ public class BlockChain {
         return outputTransactions;
     }
 
-    public boolean isSignatureValid(String Signature) {
-        return true;
+    public boolean isSignatureValid(PublicKey pKey, String message, byte[] signedTransaction) {
+        // llamar a VerSig
+        return GenSig.verify(pKey, message, signedTransaction);
     }
 
     public boolean isConsumedCoinValid(Map<String, Double> consumedCoins) {
@@ -96,29 +97,32 @@ public class BlockChain {
     }
 
     public void createTransaction(PublicKey pKey_sender, PublicKey pKey_recipient, Map<String, Double> consumedCoins,
-            String signature) {
+            String message, byte[] signedTransaction) {
 
         PublicKey address_recipient = pKey_recipient;
         Integer lastBlock = 0;
+        
         for (String prev_hash : consumedCoins.keySet()) {
+        
             if (prev_hash.startsWith("CA_")) {
                 pKey_recipient = pKey_sender;
             }
+            
             lastBlock = blockChain.size() + 1;
             Transaction transaction = new Transaction("hash_" + lastBlock.toString(), prev_hash, pKey_sender,
-                    pKey_recipient, consumedCoins.get(prev_hash));
-            // falta añadir la signature
+                    pKey_recipient, consumedCoins.get(prev_hash), message);
             getBlockChain().add(transaction);
+            
             pKey_recipient = address_recipient;
         }
     }
 
     public void processTransactions(PublicKey pKey_sender, PublicKey pKey_recipient, Map<String, Double> consumedCoins,
-            String signature) {
+            String message, byte[] signedTransaction) {
         
-        if (isSignatureValid(signature) && isConsumedCoinValid(consumedCoins)) {
+        if (isSignatureValid(pKey_sender, message, signedTransaction) && isConsumedCoinValid(consumedCoins)) {
             // crear las nuevas transacciones y añadirlas al blockchain
-            createTransaction(pKey_sender, pKey_recipient, consumedCoins, signature);
+            createTransaction(pKey_sender, pKey_recipient, consumedCoins, message, signedTransaction);
         }
 
     }

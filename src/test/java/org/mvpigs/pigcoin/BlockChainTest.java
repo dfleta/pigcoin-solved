@@ -29,7 +29,7 @@ public class BlockChainTest {
 
         BlockChain bc = new BlockChain();
         Transaction trx = new Transaction();
-        trx = new Transaction("hash_1", "0", origin.getAddress(), wallet_1.getAddress(), 20);
+        trx = new Transaction("hash_1", "0", origin.getAddress(), wallet_1.getAddress(), 20, "pig things!");
         bc.addOrigin(trx);
         assertEquals(20, bc.getBlockChain().get(0).getPigCoins(), 0);
     }
@@ -45,13 +45,13 @@ public class BlockChainTest {
         wallet_2.generateKeyPair();
 
         BlockChain bChain = new BlockChain();
-        Transaction transaction = new Transaction("hash_1", "0", origin.getAddress(), wallet_1.getAddress(), 20);
+        Transaction transaction = new Transaction("hash_1", "0", origin.getAddress(), wallet_1.getAddress(), 20, "spam eggs");
         bChain.addOrigin(transaction);
-        transaction = new Transaction("hash_2", "1", origin.getAddress(), wallet_2.getAddress(), 10);
+        transaction = new Transaction("hash_2", "1", origin.getAddress(), wallet_2.getAddress(), 10, "spam eggs spam");
         bChain.addOrigin(transaction);
-        transaction = new Transaction("hash_3", "hash_1", wallet_1.getAddress(), wallet_2.getAddress(), 10);
+        transaction = new Transaction("hash_3", "hash_1", wallet_1.getAddress(), wallet_2.getAddress(), 10, "pig things!");
         bChain.addOrigin(transaction);
-        transaction = new Transaction("hash_4", "CA_hash_3", wallet_1.getAddress(), wallet_1.getAddress(), 10);
+        transaction = new Transaction("hash_4", "CA_hash_3", wallet_1.getAddress(), wallet_1.getAddress(), 10, "spam spam spam");
         bChain.addOrigin(transaction);
 
         double[] pigcoins = bChain.loadWallet(wallet_1.getAddress());
@@ -72,9 +72,9 @@ public class BlockChainTest {
         wallet_3.generateKeyPair();
 
         BlockChain bChain = new BlockChain();
-        Transaction transaction = new Transaction("hash_1", "0", origin.getAddress(), wallet_1.getAddress(), 20);
+        Transaction transaction = new Transaction("hash_1", "0", origin.getAddress(), wallet_1.getAddress(), 20, "a flying pig!");
         bChain.addOrigin(transaction);
-        transaction = new Transaction("hash_2", "1", origin.getAddress(), wallet_2.getAddress(), 10);
+        transaction = new Transaction("hash_2", "1", origin.getAddress(), wallet_2.getAddress(), 10, "pig things!");
         bChain.addOrigin(transaction);
 
         List<Transaction> inputTransactions = bChain.loadInputTransactions(wallet_1.getAddress());
@@ -104,11 +104,11 @@ public class BlockChainTest {
         wallet_2.generateKeyPair();
         
         BlockChain bChain = new BlockChain();
-        Transaction transaction = new Transaction("hash_1", "0", origin.getAddress(), wallet_1.getAddress(), 20);
+        Transaction transaction = new Transaction("hash_1", "0", origin.getAddress(), wallet_1.getAddress(), 20, "spam eggs");
         bChain.addOrigin(transaction);
-        transaction = new Transaction("hash_2", "1", origin.getAddress(), wallet_2.getAddress(), 10);
+        transaction = new Transaction("hash_2", "1", origin.getAddress(), wallet_2.getAddress(), 10, "spam spam spam");
         bChain.addOrigin(transaction);
-        transaction = new Transaction("hash_3", "hash_1", wallet_1.getAddress(), wallet_2.getAddress(), 10);
+        transaction = new Transaction("hash_3", "hash_1", wallet_1.getAddress(), wallet_2.getAddress(), 10, "pig things!");
         bChain.addOrigin(transaction);
 
         Map<String, Double> consumedCoins = new LinkedHashMap<>();
@@ -131,9 +131,9 @@ public class BlockChainTest {
         wallet_2.generateKeyPair();
 
         BlockChain bChain = new BlockChain();
-        Transaction transaction = new Transaction("hash_1", "0", origin.getAddress(), wallet_1.getAddress(), 20);
+        Transaction transaction = new Transaction("hash_1", "0", origin.getAddress(), wallet_1.getAddress(), 20, "a flying pig!");
         bChain.addOrigin(transaction);
-        transaction = new Transaction("hash_2", "1", origin.getAddress(), wallet_2.getAddress(), 10);
+        transaction = new Transaction("hash_2", "1", origin.getAddress(), wallet_2.getAddress(), 10, "pig things!");
         bChain.addOrigin(transaction);
 
         Map<String, Double> consumedCoins = new LinkedHashMap<>();
@@ -141,8 +141,9 @@ public class BlockChainTest {
         consumedCoins.put("CA_hash_2", 9.8d);
         assertTrue(bChain.isConsumedCoinValid(consumedCoins));
 
+
         int previousBlockChainSize = bChain.getBlockChain().size();
-        bChain.createTransaction(wallet_1.getAddress(), wallet_2.getAddress(), consumedCoins, "signature");
+        bChain.createTransaction(wallet_1.getAddress(), wallet_2.getAddress(), consumedCoins, "pig things!", wallet_1.signTransaction("pig things!"));
         assertEquals(previousBlockChainSize + consumedCoins.size(), bChain.getBlockChain().size(), 0);
         assertEquals("hash_4", bChain.getBlockChain().get(3).getHash());
         assertEquals(9.8, bChain.getBlockChain().get(3).getPigCoins(), 0);

@@ -169,18 +169,18 @@ public class Wallet {
         return collectedCoins;
     }
 
-    public String signature() {
-        return "firma";
+    public byte[] signTransaction(String message) {
+        return GenSig.sign(getSKey(), message);
     }
 
-    public void sendCoins(PublicKey pKey_recipient, Double coins, BlockChain bChain) {
+    public void sendCoins(PublicKey pKey_recipient, Double coins, String message, BlockChain bChain) {
 
         Map<String, Double> consumedCoins = new LinkedHashMap<>();
         
         consumedCoins = collectCoins(coins);
 
         if (consumedCoins != null) {
-            bChain.processTransactions(getAddress(), pKey_recipient, consumedCoins, signature());
+            bChain.processTransactions(getAddress(), pKey_recipient, consumedCoins, message, signTransaction(message));
         }
         
         this.loadCoins(bChain);
