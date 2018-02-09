@@ -121,7 +121,6 @@ public class Wallet {
         setOutputTransactions(bChain.loadOutputTransactions(getAddress()));        
     }
 
-
     public Map<String, Double> collectCoins(double pigcoins) {
         
         Map<String, Double> collectedCoins = new LinkedHashMap<>();
@@ -166,7 +165,7 @@ public class Wallet {
             }
 
         }
-        getInputTransactions().removeAll(consumedCoins);
+        // getInputTransactions().removeAll(consumedCoins);
         return collectedCoins;
     }
 

@@ -137,6 +137,36 @@ public class App {
         
         System.out.println("\n" + ">>> Wallet_1 envia transaccion de 5.2 pigcoins a wallet_2 >>>" + "\n");
 
+        /**
+         * Primero has de recolectar los suficientes pigcoins de tu wallet
+         * Para ello has de eliminar de las transacciones entrantes de la wallet
+         * las que ya se han utilizado para enviar pigcoins
+         */ 
+
+        /**
+         * Los pigcoins son indivisibles, asi que si necesitas 5.2 y no tienes
+         * ninguna transaccion entrante exacta de 5.2, has de reutilizar
+         * una transaccion entrante X mayor que 5.2 y enviar dos transacciones:
+         * - una transaccion de 5.2 al destinatario
+         * - otra transaccion de (X - 5.2) a ti mismo
+         * Ten cuidado: no puedes utilizar transacciones entrantes (pigcoins)
+         * que ya hayas enviado con anterioridad o el blockchain rechazara las nuevas
+         */
+
+        /**
+         * Una vez que recolectes los pigcoins (transacciones) de tu wallet
+         * envialas al blockchain
+         * El blockchain debe chequear que las transacciones entrantes no proceden
+         * de transacciones que ya se han utilizado (gastado) 
+         */
+
+        /**
+         * Si el blockchain comprueba que los pigcoins que envias (transacciones)
+         * provienen de transacciones que no se han utilizado,
+         * incluye estas transacciones en la cadena de bloques 
+         */
+
+
         Double pigcoins = 5.2d;
         wallet_1.sendCoins(wallet_2.getAddress(), pigcoins, bChain);
         wallet_2.loadCoins(bChain);
@@ -145,7 +175,11 @@ public class App {
                                   "=========================================="            );
         // comprobamos que la transaccion se ha realizado
         System.out.println(wallet_1.toString());
-        System.out.println(wallet_2.toString());      
+        System.out.println(wallet_2.toString());
+        
+        pigcoins = 5.2d;
+        wallet_1.sendCoins(wallet_2.getAddress(), pigcoins, bChain);
+        wallet_2.loadCoins(bChain);
          
     }
 }
