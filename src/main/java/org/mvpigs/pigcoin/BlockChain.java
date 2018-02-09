@@ -65,7 +65,7 @@ public class BlockChain {
         return pigcoins;
     }
 
-    public List<Transaction> loadInputTransactions(String address) {
+    public List<Transaction> loadInputTransactions(PublicKey address) {
    
         List<Transaction> inputTransactions = getBlockChain().stream()
             .filter(transaction -> transaction.get_PK_recipient().equals(address))
@@ -74,7 +74,7 @@ public class BlockChain {
         return inputTransactions;
     }
 
-    public List<Transaction> loadOutputTransactions(String address) {
+    public List<Transaction> loadOutputTransactions(PublicKey address) {
    
         List<Transaction> outputTransactions = getBlockChain().stream()
             .filter(transaction -> transaction.get_PK_sender().equals(address))

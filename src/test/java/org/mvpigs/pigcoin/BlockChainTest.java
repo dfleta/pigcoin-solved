@@ -62,23 +62,32 @@ public class BlockChainTest {
     @Test
     public void load_Input_Transactions_test() {
 
+        Wallet origin = new Wallet();
+        origin.generateKeyPair();
+        Wallet wallet_1 = new Wallet();
+        wallet_1.generateKeyPair();
+        Wallet wallet_2 = new Wallet();
+        wallet_2.generateKeyPair();
+        Wallet wallet_3 = new Wallet();
+        wallet_3.generateKeyPair();
+
         BlockChain bChain = new BlockChain();
-        Transaction transaction = new Transaction("hash_1", "0", "origin", "wallet_1", 20);
+        Transaction transaction = new Transaction("hash_1", "0", origin.getAddress(), wallet_1.getAddress(), 20);
         bChain.addOrigin(transaction);
-        transaction = new Transaction("hash_2", "1", "origin", "wallet_2", 10);
+        transaction = new Transaction("hash_2", "1", origin.getAddress(), wallet_2.getAddress(), 10);
         bChain.addOrigin(transaction);
 
-        List<Transaction> inputTransactions = bChain.loadInputTransactions("wallet_1");
+        List<Transaction> inputTransactions = bChain.loadInputTransactions(wallet_1.getAddress());
         assertNotNull(inputTransactions);
         assertTrue(inputTransactions.size() == 1);
         assertFalse(inputTransactions.contains(transaction));
 
-        inputTransactions = bChain.loadInputTransactions("wallet_2");
+        inputTransactions = bChain.loadInputTransactions(wallet_2.getAddress());
         assertNotNull(inputTransactions);
         assertTrue(inputTransactions.size() == 1);
         assertTrue(inputTransactions.contains(transaction));
 
-        inputTransactions = bChain.loadInputTransactions("wallet_3");
+        inputTransactions = bChain.loadInputTransactions(wallet_3.getAddress());
         assertNotNull(inputTransactions);
         assertTrue(inputTransactions.size() == 0);
         assertFalse(inputTransactions.contains(transaction));
