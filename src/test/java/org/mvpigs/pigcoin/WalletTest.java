@@ -33,40 +33,38 @@ public class WalletTest {
     }
 
     @Test
-    public void constructor_arguments_test() {
-        Wallet wallet = new Wallet("feed");
-        assertNotNull(wallet);
-    }
-
-    @Test
     public void total_pigcoins_input_y_output_test() {
 
+        Wallet origin = new Wallet();
+        origin.generateKeyPair();
+        Wallet wallet_1 = new Wallet();
+        wallet_1.generateKeyPair();
+        Wallet wallet_2 = new Wallet();
+        wallet_2.generateKeyPair();
+
         BlockChain bChain = new BlockChain();
-        Transaction transaction = new Transaction("hash_1", "0", "origin", "wallet_1", 20);
+        Transaction transaction = new Transaction("hash_1", "0", origin.getAddress(), wallet_1.getAddress(), 20);
         bChain.addOrigin(transaction);
-        transaction = new Transaction("hash_2", "1", "origin", "wallet_2", 10);
+        transaction = new Transaction("hash_2", "1", origin.getAddress(), wallet_2.getAddress(), 10);
         bChain.addOrigin(transaction);
 
-        Wallet wallet = new Wallet("feed");
-        wallet.setAddress_sin_hash("wallet_1");
-        wallet.loadCoins(bChain);
-        assertEquals(20, wallet.getTotalInput(), 0);
-        assertEquals(0, wallet.getTotalOutput(), 0);
-        assertEquals(20, wallet.getBalance(), 0);
+        wallet_1.loadCoins(bChain);
+        assertEquals(20, wallet_1.getTotalInput(), 0);
+        assertEquals(0, wallet_1.getTotalOutput(), 0);
+        assertEquals(20, wallet_1.getBalance(), 0);
 
-        wallet = new Wallet("feed");
-        wallet.setAddress_sin_hash("wallet_2");
-        wallet.loadCoins(bChain);
-        assertEquals(10, wallet.getTotalInput(), 0);
-        assertEquals(0, wallet.getTotalOutput(), 0);
-        assertEquals(10, wallet.getBalance(), 0);
+        wallet_2.loadCoins(bChain);
+        assertEquals(10, wallet_2.getTotalInput(), 0);
+        assertEquals(0, wallet_2.getTotalOutput(), 0);
+        assertEquals(10, wallet_2.getBalance(), 0);
 
         // una wallet que no existe
-        wallet.setAddress_sin_hash("wallet_3");
-        wallet.loadCoins(bChain);
-        assertEquals(0, wallet.getTotalInput(), 0);
-        assertEquals(0, wallet.getTotalOutput(), 0);
-        assertEquals(0, wallet.getBalance(), 0);
+        Wallet wallet_3 = new Wallet();
+        wallet_3.generateKeyPair();
+        wallet_3.loadCoins(bChain);
+        assertEquals(0, wallet_3.getTotalInput(), 0);
+        assertEquals(0, wallet_3.getTotalOutput(), 0);
+        assertEquals(0, wallet_3.getBalance(), 0);
     }
 
     @Test
