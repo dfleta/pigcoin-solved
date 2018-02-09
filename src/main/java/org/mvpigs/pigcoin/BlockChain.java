@@ -1,5 +1,6 @@
 package org.mvpigs.pigcoin;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -45,24 +46,22 @@ public class BlockChain {
         System.out.println(getBlockChain().get(index).toString());
     }
 
-    public double[] loadWallet(String address) {
+    public double[] loadWallet(PublicKey address) {
 
         double pigcoinsIn = 0d;
         double pigcoinsOut = 0d;
 
-        Set<String> consumedCoins = new HashSet<>();
-
         for (Transaction transaction : getBlockChain()) {
 
-            if(address.equals(transaction.get_PK_recipient())) {
-                    pigcoinsIn = pigcoinsIn + transaction.getPigCoins();
+            if (address.equals(transaction.get_PK_recipient())) {
+                pigcoinsIn = pigcoinsIn + transaction.getPigCoins();
             }
             if (address.equals(transaction.get_PK_sender())) {
                 pigcoinsOut = pigcoinsOut + transaction.getPigCoins();
             }
         }
 
-        double[] pigcoins = {pigcoinsIn, pigcoinsOut};
+        double[] pigcoins = { pigcoinsIn, pigcoinsOut };
         return pigcoins;
     }
 

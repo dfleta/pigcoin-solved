@@ -87,7 +87,7 @@ public class App {
         
         Integer position = 1;
         System.out.println("\n" + "Ver Transaccion en posicion " + position.toString() + " del BlockChain" + "\n" + 
-                                  "======================================================================"        );
+                                  "============================================"        );
         bChain.summarize(position);        
 
         /**
@@ -99,21 +99,16 @@ public class App {
 
         System.out.println("\n" + "Ver el total de pigcoins de las dos wallet" + "\n" + 
                                   "======================================"        );
-        /*
-        Wallet wallet_1 = new Wallet("feed");
-        wallet_1.setAddress_sin_hash("wallet_1");
+        
         wallet_1.loadCoins(bChain);
         System.out.println(wallet_1.toString());
 
-        Wallet wallet_2 = new Wallet("feed");
-        wallet_2.setAddress_sin_hash("wallet_2");
         wallet_2.loadCoins(bChain);
-        System.out.println(wallet_2.toString());
-        */
+        System.out.println(wallet_2.toString());        
 
         /**
          * Cargar en la wallet el total de transacciones recibidas
-         * (aquellas que suponen recibir pigcoins)
+         * (aquellas que significan recibir pigcoins)
          * y enviadas (aquellas que envian pigcoins)
          * y mostrarlas
          */

@@ -21,7 +21,7 @@ public class BlockChainTest {
 
     @Test
     public void addOriginTransaction() {
-        
+
         Wallet origin = new Wallet();
         origin.generateKeyPair();
         Wallet wallet_1 = new Wallet();
@@ -36,17 +36,25 @@ public class BlockChainTest {
 
     @Test
     public void load_wallet_test() {
+
+        Wallet origin = new Wallet();
+        origin.generateKeyPair();
+        Wallet wallet_1 = new Wallet();
+        wallet_1.generateKeyPair();
+        Wallet wallet_2 = new Wallet();
+        wallet_2.generateKeyPair();
+
         BlockChain bChain = new BlockChain();
-        Transaction transaction = new Transaction("hash_1", "0", "origin", "wallet_1", 20);
+        Transaction transaction = new Transaction("hash_1", "0", origin.getAddress(), wallet_1.getAddress(), 20);
         bChain.addOrigin(transaction);
-        transaction = new Transaction("hash_2", "1", "origin", "wallet_2", 10);
+        transaction = new Transaction("hash_2", "1", origin.getAddress(), wallet_2.getAddress(), 10);
         bChain.addOrigin(transaction);
-        transaction = new Transaction("hash_3", "hash_1", "wallet_1", "wallet_2", 10);
+        transaction = new Transaction("hash_3", "hash_1", wallet_1.getAddress(), wallet_2.getAddress(), 10);
         bChain.addOrigin(transaction);
-        transaction = new Transaction("hash_4", "CA_hash_3", "wallet_1", "wallet_1", 10);
+        transaction = new Transaction("hash_4", "CA_hash_3", wallet_1.getAddress(), wallet_1.getAddress(), 10);
         bChain.addOrigin(transaction);
 
-        double[] pigcoins = bChain.loadWallet("wallet_1");
+        double[] pigcoins = bChain.loadWallet(wallet_1.getAddress());
         assertEquals(30, pigcoins[0], 0);
         assertEquals(20, pigcoins[1], 0);
     }
