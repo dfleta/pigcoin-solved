@@ -98,30 +98,30 @@ public class BlockChain {
         return true;
     }
 
-    public void createTransaction(String PK_sender, String PK_recipient, Map<String, Double> consumedCoins,
+    public void createTransaction(PublicKey pKey_sender, PublicKey pKey_recipient, Map<String, Double> consumedCoins,
             String signature) {
 
-        String address_recipient = PK_recipient;
+        PublicKey address_recipient = pKey_recipient;
         Integer lastBlock = 0;
         for (String prev_hash : consumedCoins.keySet()) {
             if (prev_hash.startsWith("CA_")) {
-                PK_recipient = PK_sender;
+                pKey_recipient = pKey_sender;
             }
             lastBlock = blockChain.size() + 1;
-            Transaction transaction = new Transaction("hash_" + lastBlock.toString(), prev_hash, PK_sender,
-                    PK_recipient, consumedCoins.get(prev_hash));
+            Transaction transaction = new Transaction("hash_" + lastBlock.toString(), prev_hash, pKey_sender,
+                    pKey_recipient, consumedCoins.get(prev_hash));
             // falta añadir la signature
             getBlockChain().add(transaction);
-            PK_recipient = address_recipient;
+            pKey_recipient = address_recipient;
         }
     }
 
-    public void processTransactions(String PK_sender, String PK_recipient, Map<String, Double> consumedCoins,
+    public void processTransactions(PublicKey pKey_sender, PublicKey pKey_recipient, Map<String, Double> consumedCoins,
             String signature) {
         
         if (isSignatureValid(signature) && isConsumedCoinValid(consumedCoins)) {
             // crear las nuevas transacciones y añadirlas al blockchain
-            createTransaction(PK_sender, PK_recipient, consumedCoins, signature);
+            createTransaction(pKey_sender, pKey_recipient, consumedCoins, signature);
         }
 
     }

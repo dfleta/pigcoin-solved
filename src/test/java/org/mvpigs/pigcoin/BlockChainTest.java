@@ -95,12 +95,20 @@ public class BlockChainTest {
 
     @Test
     public void is_consumed_coin_valid_test() {
+
+        Wallet origin = new Wallet();
+        origin.generateKeyPair();
+        Wallet wallet_1 = new Wallet();
+        wallet_1.generateKeyPair();
+        Wallet wallet_2 = new Wallet();
+        wallet_2.generateKeyPair();
+        
         BlockChain bChain = new BlockChain();
-        Transaction transaction = new Transaction("hash_1", "0", "origin", "wallet_1", 20);
+        Transaction transaction = new Transaction("hash_1", "0", origin.getAddress(), wallet_1.getAddress(), 20);
         bChain.addOrigin(transaction);
-        transaction = new Transaction("hash_2", "1", "origin", "wallet_2", 10);
+        transaction = new Transaction("hash_2", "1", origin.getAddress(), wallet_2.getAddress(), 10);
         bChain.addOrigin(transaction);
-        transaction = new Transaction("hash_3", "hash_1", "wallet_1", "wallet_2", 10);
+        transaction = new Transaction("hash_3", "hash_1", wallet_1.getAddress(), wallet_2.getAddress(), 10);
         bChain.addOrigin(transaction);
 
         Map<String, Double> consumedCoins = new LinkedHashMap<>();
@@ -115,10 +123,17 @@ public class BlockChainTest {
     @Test
     public void create_transaction_test() {
 
+        Wallet origin = new Wallet();
+        origin.generateKeyPair();
+        Wallet wallet_1 = new Wallet();
+        wallet_1.generateKeyPair();
+        Wallet wallet_2 = new Wallet();
+        wallet_2.generateKeyPair();
+
         BlockChain bChain = new BlockChain();
-        Transaction transaction = new Transaction("hash_1", "0", "origin", "wallet_1", 20);
+        Transaction transaction = new Transaction("hash_1", "0", origin.getAddress(), wallet_1.getAddress(), 20);
         bChain.addOrigin(transaction);
-        transaction = new Transaction("hash_2", "1", "origin", "wallet_2", 10);
+        transaction = new Transaction("hash_2", "1", origin.getAddress(), wallet_2.getAddress(), 10);
         bChain.addOrigin(transaction);
 
         Map<String, Double> consumedCoins = new LinkedHashMap<>();
@@ -127,7 +142,7 @@ public class BlockChainTest {
         assertTrue(bChain.isConsumedCoinValid(consumedCoins));
 
         int previousBlockChainSize = bChain.getBlockChain().size();
-        bChain.createTransaction("wallet_1", "wallet_2", consumedCoins, "signature");
+        bChain.createTransaction(wallet_1.getAddress(), wallet_2.getAddress(), consumedCoins, "signature");
         assertEquals(previousBlockChainSize + consumedCoins.size(), bChain.getBlockChain().size(), 0);
         assertEquals("hash_4", bChain.getBlockChain().get(3).getHash());
         assertEquals(9.8, bChain.getBlockChain().get(3).getPigCoins(), 0);

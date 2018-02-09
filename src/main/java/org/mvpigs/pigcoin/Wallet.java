@@ -174,14 +174,14 @@ public class Wallet {
         return "firma";
     }
 
-    public void sendCoins(String PK_recipient, Double coins, BlockChain bChain) {
+    public void sendCoins(PublicKey pKey_recipient, Double coins, BlockChain bChain) {
 
         Map<String, Double> consumedCoins = new LinkedHashMap<>();
         
         consumedCoins = collectCoins(coins);
 
         if (consumedCoins != null) {
-            bChain.processTransactions(getAddress(), PK_recipient, consumedCoins, signature());
+            bChain.processTransactions(getAddress(), pKey_recipient, consumedCoins, signature());
         }
         
         this.loadCoins(bChain);
