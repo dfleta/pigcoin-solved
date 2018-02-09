@@ -14,12 +14,19 @@ public class TransactionTest {
     @Test
     public void constructor_test() {
         
-        Transaction transaction = new Transaction();
-        assertNotNull(transaction);
+        Transaction trx = new Transaction();
+        assertNotNull(trx);
 
-        transaction = new Transaction("hash_1", "0", "aaaaaaaa", "0", 20);
-        assertNotNull(transaction);
-        assertEquals(20, transaction.getPigCoins(), 0);
+        Wallet wallet_1 = new Wallet();
+        wallet_1.generateKeyPair();
+        Wallet wallet_2 = new Wallet();
+        wallet_2.generateKeyPair();
+
+        trx = new Transaction("hash_1", "0", wallet_1.getAddress(), wallet_2.getAddress(), 20);
+        assertNotNull(trx);
+        assertTrue(trx.get_PK_sender().equals(wallet_1.getAddress()));
+        assertTrue(trx.get_PK_recipient().equals(wallet_2.getAddress()));
+        assertEquals(20, trx.getPigCoins(), 0);
     }
 
 

@@ -2,6 +2,9 @@ package org.mvpigs.pigcoin;
 
 import com.google.common.hash.Hashing;
 import java.nio.charset.StandardCharsets;
+import java.security.KeyPair;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -10,8 +13,8 @@ import java.util.Set;
 
 public class Wallet {
 
-    private String address = null;
-    private String SK = null;
+    private PublicKey address = null;
+    private PrivateKey sKey = null;
     private double total_input = 0d;
     private double total_output = 0d;
     private double balance = 0d;
@@ -25,33 +28,23 @@ public class Wallet {
     public Wallet() {
     };
 
-    public Wallet(String feed) {
-        setSK(feed);
-        setAddress(feed);
-    };
-
     /**
      * Getter y Setters
      */
 
-    public void setSK(String feed) {
-        this.SK = generateKey(feed);;
+    public void setSK(PrivateKey sKey) {
+        this.sKey = sKey;
     }
 
-    public String getSK() {
-        return this.SK;
+    public PrivateKey getSKey() {
+        return this.sKey;
     }
 
-    // solo a efectos de testing => eliminar al hacer key pair
-    public void setAddress_sin_hash(String address_sin_hash) {
-        this.address = address_sin_hash;
+    public void setAddress(PublicKey pKey) {
+        this.address = pKey;
     }
 
-    public void setAddress(String feed) {
-        this.address = generateKey(feed);
-    }
-
-    public String getAddress() {
+    public PublicKey getAddress() {
         return this.address;
     }
 
@@ -94,6 +87,12 @@ public class Wallet {
     /**
      * Logica
      */
+
+    public void generateKeyPair() {
+        KeyPair pair = GenSig.generateKeyPair();
+        this.setSK(pair.getPrivate());
+        this.setAddress(pair.getPublic());
+    }
 
     public String generateKey(String gmail) {
         String sha256hex = Hashing.sha256()
@@ -190,7 +189,7 @@ public class Wallet {
 
     @Override
     public String toString() {
-        return "\n" + "Wallet = " + getAddress() + "\n" + 
+        return "\n" + "Wallet = " + getAddress().getEncoded() + "\n" + 
                       "Total input = " + getTotalInput() + "\n" +
                       "Total output = " + getTotalOutput() + "\n" +
                       "Balance = " + getBalance() + "\n";

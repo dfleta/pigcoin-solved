@@ -18,6 +18,15 @@ public class WalletTest {
     }
 
     @Test
+    public void generate_key_pair_test() {
+        Wallet wallet = new Wallet();
+        assertNotNull(wallet);
+        wallet.generateKeyPair();
+        assertNotNull(wallet.getAddress());
+        assertNotNull(wallet.getSKey());
+    }
+
+    @Test
     public void generateSk_test() {
         // problema al testear Gava desde Junit => hacerlo desde main App
         // wallet.generateSk("gelpiorama@gmail.com");

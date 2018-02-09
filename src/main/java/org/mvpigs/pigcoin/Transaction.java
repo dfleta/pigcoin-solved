@@ -1,11 +1,13 @@
 package org.mvpigs.pigcoin;
 
+import java.security.PublicKey;
+
 public class Transaction {
 
     private String hash = null;
     private String prev_hash = null;
-    private String PK_sender = null;
-    private String PK_recipient = null;
+    private PublicKey pKey_sender = null;
+    private PublicKey pKey_recipient = null;
     private double pigcoins = 0d;
     // private double signature = null;
 
@@ -15,11 +17,11 @@ public class Transaction {
     public Transaction() {
     };
 
-    public Transaction(String hash, String prev_hash, String pk_sender, String pk_recipient, double pigcoins) {
+    public Transaction(String hash, String prev_hash, PublicKey pKey_sender, PublicKey pKey_recipient, double pigcoins) {
         this.hash = hash;
         this.prev_hash = prev_hash;
-        this.PK_sender = pk_sender;
-        this.PK_recipient = pk_recipient;
+        this.pKey_sender = pKey_sender;
+        this.pKey_recipient = pKey_recipient;
         this.pigcoins = pigcoins;
     }
 
@@ -35,17 +37,17 @@ public class Transaction {
     public String toString() {
         return "\n" + "hash = "+ this.hash + "\n" + 
                 "prev_hash = " + this.prev_hash + "\n" +
-                "pk_sender = " + get_PK_sender() + "\n" +
-                "pk_recipient = " + get_PK_recipient() + "\n" +
+                "pk_sender = " + get_PK_sender().getEncoded() + "\n" +
+                "pk_recipient = " + get_PK_recipient().getEncoded() + "\n" +
                 "pigcoins = " + getPigCoins() + "\n";
     }
 
-    public String get_PK_sender() {
-        return this.PK_sender;
+    public PublicKey get_PK_sender() {
+        return this.pKey_sender;
     }
 
-    public String get_PK_recipient() {
-        return this.PK_recipient;
+    public PublicKey get_PK_recipient() {
+        return this.pKey_recipient;
     }
 
     public String getHash() {
