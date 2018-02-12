@@ -161,7 +161,21 @@ public class App {
         System.out.println(wallet_2.toString());    
 
         /**
-         * Enviar pigcoins de la wallet_1 a la wallet_2 
+         * Enviar pigcoins de la wallet_1 a la wallet_2
+         * 
+         * wallet_1.sendCoins(wallet_2.getAddress(), pigcoins, message, bChain)
+         *      {
+         *          collectCoins(pigcoins);
+         *          signTransaction(message);
+         *          bChain.processTransactions(pKey_sender, pKey_recipient, consumedCoins, message, signedTransaction);
+         *      };
+         * 
+         * bChain.processTransactions(pKey_sender, pKey_recipient, consumedCoins, message, signedTransaction); 
+         *      {
+         *          isSignatureValid(public_Key, message, signedTransaction)
+         *          isConsumedCoinValid(consumedCoins);
+         *          createTransaction(pKey_sender, pKey_recipient, consumedCoins,message, signedTransaction);
+         *       }
          */
         
         System.out.println("\n" + ">>>>>>>>>>>> Wallet_1 envia transaccion de pigcoins a wallet_2 >>>>>>>>>>>>" + "\n");
@@ -174,7 +188,7 @@ public class App {
 
         /**
          * Los pigcoins son indivisibles, asi que si necesitas 5.2 y no tienes
-         * ninguna transaccion entrante exacta de 5.2, has de realizar un CHANGE ADDRESS: 
+         * ninguna transaccion entrante exacta de 5.2, has de realizar un CHANGE ADDRESS (CA): 
          * Consiste en reutilizar una transaccion entrante mayor que 5.2, por ejemplo 10,
          * y enviar dos transacciones:
          * - una transaccion de 5.2 al destinatario
@@ -221,6 +235,7 @@ public class App {
          * en la cadena de bloques 
          * 
          * bChain.processTransactions(wallet_1.getAddress(), wallet_2.getAddress(), consumedCoins, message, signedTransaction);
+         * bChain.createTransaction(pKey_sender, pKey_recipient, consumedCoins,message, signedTransaction);
          */
 
         System.out.println("\n" + "Ver el total de pigcoins de las dos wallet" + "\n" + 
@@ -242,7 +257,7 @@ public class App {
 
         System.out.println("\n" + ">>>>>>>>>>>> Wallet_1 envia transaccion de 100 pigcoins a wallet_2 >>>>>>>>>>>>" + "\n");
 
-        wallet_1.sendCoins(wallet_2.getAddress(), 100d, "no tengo tantos :(", bChain); // usa wallet.collectCoins() y bChain.processTransactions()
+        wallet_1.sendCoins(wallet_2.getAddress(), 100d, "no tengo tantos :(", bChain);
 
         System.out.println("\n" + "Ver el total de pigcoins de las dos wallet" + "\n" + 
                                   "=========================================="            );
@@ -258,7 +273,7 @@ public class App {
 
         System.out.println("\n" + ">>>>>>>>>>>> Wallet_1 envia transaccion de 2.5 pigcoins a wallet_2 >>>>>>>>>>>>" + "\n");
 
-        wallet_1.sendCoins(wallet_2.getAddress(), 2.5d, "", bChain); // usa wallet.collectCoins() y bChain.processTransactions()
+        wallet_1.sendCoins(wallet_2.getAddress(), 2.5d, "", bChain);
 
         System.out.println("\n" + "Ver el total de pigcoins de las dos wallet" + "\n" + 
                                   "=========================================="            );
