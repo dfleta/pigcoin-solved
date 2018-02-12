@@ -188,7 +188,7 @@ public class Wallet {
 
     @Override
     public String toString() {
-        return "\n" + "Wallet = " + getAddress().getEncoded() + "\n" + 
+        return "\n" + "Wallet = " + getAddress().hashCode() + "\n" + 
                       "Total input = " + getTotalInput() + "\n" +
                       "Total output = " + getTotalOutput() + "\n" +
                       "Balance = " + getBalance() + "\n";

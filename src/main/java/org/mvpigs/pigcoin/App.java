@@ -20,7 +20,7 @@ public class App {
         wallet_1.setSK(pair.getPrivate());
         wallet_1.setAddress(pair.getPublic());
 
-        System.out.println("\n Direccion de la Wallet_1: \n" +  wallet_1.getAddress().getEncoded());
+        System.out.println("\n Direccion de la Wallet_1: \n" +  wallet_1.getAddress().hashCode());
 
         /**
          * Crea una segunda wallet, esta vez generando sus claves
@@ -31,7 +31,7 @@ public class App {
         Wallet wallet_2 = new Wallet();
         wallet_2.generateKeyPair();
 
-        System.out.println("\n Direccion de la Wallet_2: \n" + wallet_2.getAddress().getEncoded());
+        System.out.println("\n Direccion de la Wallet_2: \n" + wallet_2.getAddress().hashCode());
 
         /**
          * Visualiza las Wallet 1 y 2
@@ -115,19 +115,19 @@ public class App {
         System.out.println("\n" + "Ver las transacciones ENTRANTES de la wallet_1" + "\n" + 
                                   "=============================================="        );
         wallet_1.loadInputTransactions(bChain);
-        System.out.println("Wallet = " + wallet_1.getAddress().getEncoded());
+        System.out.println("Wallet = " + wallet_1.getAddress().hashCode());
         System.out.println("Transacciones = " + wallet_1.getInputTransactions().toString());
 
         System.out.println("\n" + "Ver las transacciones ENVIADAS de la wallet_1" + "\n" + 
                                   "=============================================="        );
         wallet_1.loadOutputTransactions(bChain);
-        System.out.println("Wallet = " + wallet_1.getAddress().getEncoded());
+        System.out.println("Wallet = " + wallet_1.getAddress().hashCode());
         System.out.println("Transacciones = " + wallet_1.getOutputTransactions().toString());
 
         System.out.println("\n" + "Ver las transacciones entrantes de la wallet_2" + "\n" + 
                                   "=============================================="        );
         wallet_2.loadInputTransactions(bChain);
-        System.out.println("Wallet = " + wallet_1.getAddress().getEncoded());
+        System.out.println("Wallet = " + wallet_1.getAddress().hashCode());
         System.out.println("Transacciones = " + wallet_2.getInputTransactions().toString());      
 
         
@@ -160,22 +160,27 @@ public class App {
         wallet_2.loadOutputTransactions(bChain);
         System.out.println(wallet_2.toString());    
 
+
+
         /**
          * Enviar pigcoins de la wallet_1 a la wallet_2
+         * Este es el flujo de trabajo que has de programar.
          * 
-         * wallet_1.sendCoins(wallet_2.getAddress(), pigcoins, message, bChain)
-         *      {
+         * wallet_1.sendCoins(wallet_2.getAddress(), pigcoins, message, bChain) {
+         *      
          *          collectCoins(pigcoins);
          *          signTransaction(message);
          *          bChain.processTransactions(pKey_sender, pKey_recipient, consumedCoins, message, signedTransaction);
          *      };
          * 
-         * bChain.processTransactions(pKey_sender, pKey_recipient, consumedCoins, message, signedTransaction); 
-         *      {
+         * bChain.processTransactions(pKey_sender, pKey_recipient, consumedCoins, message, signedTransaction) {
+         *      
          *          isSignatureValid(public_Key, message, signedTransaction)
          *          isConsumedCoinValid(consumedCoins);
          *          createTransaction(pKey_sender, pKey_recipient, consumedCoins,message, signedTransaction);
          *       }
+         * 
+         * A continuacion se detalla la responsabilidad de cada metodo.
          */
         
         System.out.println("\n" + ">>>>>>>>>>>> Wallet_1 envia transaccion de pigcoins a wallet_2 >>>>>>>>>>>>" + "\n");
@@ -211,7 +216,10 @@ public class App {
         byte[] signedTransaction = wallet_1.signTransaction(message); // usa GenSig.sign()
         wallet_1.sendCoins(wallet_2.getAddress(), pigcoins, message, bChain); // usa wallet.collectCoins() y bChain.processTransactions()
         
-        // bChain.processTransactions(wallet_1.getAddress(), wallet_2.getAddress(), consumedCoins, message, signedTransaction);
+        /**
+         *  wallet.sendCoins() invoca a 
+         *  bChain.processTransactions(wallet_1.getAddress(), wallet_2.getAddress(), consumedCoins, message, signedTransaction);
+         */
 
         /**
          * El blockchain debe chequear que las transacciones entrantes no proceden
