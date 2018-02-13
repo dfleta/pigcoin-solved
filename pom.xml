@@ -23,10 +23,25 @@
         <version>4.12</version>
         <scope>test</scope>
     </dependency>
-    <dependency>
-        <groupId>com.google.guava</groupId>
-        <artifactId>guava</artifactId>
-        <version>20.0</version>
-    </dependency>
   </dependencies>
+
+  <distributionManagement>
+    <site>
+      <id>Pigcoin</id>
+      <url>scp://www.mvpigs.org/www/docs/project/</url>
+    </site>
+  </distributionManagement>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.0.0</version>
+        <configuration>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+
 </project>

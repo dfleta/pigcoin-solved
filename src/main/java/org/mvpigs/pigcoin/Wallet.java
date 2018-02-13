@@ -1,7 +1,5 @@
 package org.mvpigs.pigcoin;
 
-import com.google.common.hash.Hashing;
-import java.nio.charset.StandardCharsets;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -92,13 +90,6 @@ public class Wallet {
         KeyPair pair = GenSig.generateKeyPair();
         this.setSK(pair.getPrivate());
         this.setAddress(pair.getPublic());
-    }
-
-    public String generateKey(String gmail) {
-        String sha256hex = Hashing.sha256()
-                                  .hashString(gmail, StandardCharsets.UTF_8)
-                                  .toString();
-        return sha256hex;
     }
 
     public void updateBalance() {
