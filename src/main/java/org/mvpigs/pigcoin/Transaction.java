@@ -15,6 +15,7 @@ public class Transaction {
     /**
      * Constructores
      */
+    
     public Transaction() {
     };
 
