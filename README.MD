@@ -13,13 +13,15 @@ PIGCOIN
 
 ## Prepara el proyecto
 
- 1. Crea un nuevo proyecto en tu cuenta en **Github**.
+ 1. Crea un nuevo repo en tu cuenta en **Github**.
  2. Crea un nuevo directorio en tu equipo y **clona el repositorio** de Github.
  3. Abre VSCode /Eclipse /Netbeans y **establece como workspace** el directorio que has clonado.
- 4. Crea un proyecto con tu **nombre y apellidos**.
+ 4. Crea un proyecto **Maven** que incluya tu **nombre y apellidos**.
+ 5. Pon el proyecto en seguimiento en **Git** y configura `.gitignore`.
  5. Copia y pega la función principal `App.java`. Utilízala como guía en el proceso TDD. **No puedes modificar su código**, pero sí puedes comentar aquellas partes que aun no hayas implementado.
  6. Añade al proyecto la clase `GenSig.java` que ofrece varias utilidades que emplearás.
  7. Completa las clases que aquí se indican **implementando los casos test que necesites**. Practica **TDD**.
+ 8. Realiza `commits` como mínimo cada vez que termines una historia de usuario. 
 
 ## Cómo entregar el código
 
