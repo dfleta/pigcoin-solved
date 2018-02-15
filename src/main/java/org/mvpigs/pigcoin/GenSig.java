@@ -10,12 +10,11 @@ import java.security.Signature;
 public class GenSig {
 
     /**
-     * Generamos el par de clave pública PK
+     * Genera el par de clave publica PK
      * y clave privada SK
      * La clave pública PK es la dirección pública de la Wallet
      * La clave privada SK es necesaria para firmar los mensajes 
      */
-
     public static KeyPair generateKeyPair() {
 
         try {
@@ -31,6 +30,11 @@ public class GenSig {
         }
     }
 
+    /**
+     * Firma el mensaje que acompaña la transaccion
+     * mediante la clave privada de la wallet que 
+     * envia los pigcoins.
+     */
     public static byte[] sign(PrivateKey sKey, String message) {
         
         try {
@@ -48,6 +52,13 @@ public class GenSig {
         }
     }
 
+    /**
+     * Verifica que la firma del mensaje que acompaña la transaccion
+     * es autentica.
+     * Recibe el mensaje, el mensaje firmado, y la clave publica
+     * que corresponde a la clave privada con la que se firmo 
+     * el mensaje.
+     */
     public static boolean verify(PublicKey pubKey, String message, byte[] signedMessage) {
         try {
             // importar la clave publica
